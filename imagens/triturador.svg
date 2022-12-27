@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 8.4666667 8.4666667"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="triturador.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="true"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="15.893067"
+     inkscape:cx="7.047098"
+     inkscape:cy="22.148022"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="184"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid326"
+       spacingx="3.175"
+       spacingy="3.7041667"
+       empspacing="6"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#cccccc;stroke:#b3b3b3;stroke-width:0.26458333;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;stroke-dashoffset:2.834;paint-order:normal;stop-color:#000000"
+       id="rect10648"
+       width="5.0763173"
+       height="2.9287617"
+       x="1.7652771"
+       y="4.9616394"
+       ry="0.60869122" />
+    <circle
+       style="fill:#00ff00;stroke:#666666;stroke-width:0.148935;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;stroke-dashoffset:2.834;paint-order:stroke fill markers;stop-color:#000000"
+       id="path10704"
+       cx="5.7315793"
+       cy="6.7256789"
+       r="0.10776725" />
+    <circle
+       style="fill:#ff6600;stroke:#666666;stroke-width:0.148935;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;stroke-dashoffset:2.834;paint-order:stroke fill markers;stop-color:#000000"
+       id="circle10862"
+       cx="5.7315793"
+       cy="7.2548456"
+       r="0.10776725" />
+    <rect
+       style="fill:#333333;stroke:#1a1a1a;stroke-width:0.26458333;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;stroke-dashoffset:2.834;paint-order:normal;stop-color:#000000"
+       id="rect10646"
+       width="3.8303885"
+       height="0.31828707"
+       x="2.3882415"
+       y="5.483263" />
+  </g>
+</svg>

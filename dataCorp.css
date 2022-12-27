@@ -1,0 +1,128 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#cena {
+    width: 100%;
+    height: 100%;
+    background: url("imagens/grade.svg") repeat local;
+    overflow: scroll;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.objeto {
+    position: absolute;
+    transition: 0.5s;
+    z-index: 1;
+    pointer-events: none;
+}
+.clicavel {
+    position: absolute;
+    transition: 0.5s;
+    z-index: 2;
+}
+.balaoFala {
+    background-color: #DDD;
+    position: absolute;
+    padding: 0.5em;
+    max-width: 7em;
+    text-align: center;
+    border-radius: 0.5em;
+    font-size: 0.5em;
+    transition: 0.5s;
+    border: 2px solid #555;
+    z-index: 5;
+    box-shadow: 2px 5px 7px #0004;
+    pointer-events: none;
+}
+#cena .selecionado {
+    outline: solid #0ebc45 2px;
+}
+.valorDado {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    text-align: center;
+    z-index: 2;
+    font-size: 8px;
+    transition: 0.5s;
+    margin: 18px 10px;
+    pointer-events: none;
+}
+#detalhamento {
+    width: 30%;
+    height: calc(100% - 100px);
+    background-color: #EEE;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    box-shadow: 0px 5px 20px #0008;
+    z-index: 100;
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    zoom: 1vw;
+}
+.card {
+    background-color: #FFF;
+    padding: 0px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px #0004;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+.card.mover {
+    background-color: #80dd80;
+}
+.card.pegar {
+    background-color: #dddd80;
+}
+.card.ordem {
+    background-color: #8080dd;
+}
+.card p {
+    margin: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.card .counter {
+    font-size: 0.5em;
+    background-color: #0001;
+    width: 2em;
+    text-align: center;
+    vertical-align: middle;
+    padding: 2em 0em;
+    margin: 0em;
+    align-self: stretch;
+    border-radius: 5px;
+}
+.inputDirecao {
+    background-color: #0001;
+    display: inline-grid;
+    vertical-align: middle;
+    grid-template-columns: 11px 11px 11px;
+    grid-template-rows: 11px 11px 11px;
+    margin: 5px;
+}
+.inputDirecao div {
+    background-color: #0002;
+    margin: 1px;
+}
+.inputDirecao div.selecionado {
+    background-color: #FFF;
+}
+#setaDetalhamento {
+    position: absolute;
+    z-index: 101;
+    transition: 0.1s;
+}
+#controleExec {
+    position: fixed;
+}
