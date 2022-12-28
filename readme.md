@@ -7,7 +7,9 @@ http://datacorp.leandrogabriel.net/
 
 ## É gratuito?
 
-Sim, é gratuito. E você pode contribuir também para este projeto, ampliando-o cada vez mais.
+Sim, é gratuito. Nessa versão web, todo o projeto não só é gratuito como você pode contribuir também nele, ampliando-o cada vez mais.
+
+Planejo fazer uma versão paga posteriormente, feita em outra engine, disponibilizando-a em lojas digitais.
 
 ## Quando fica pronto?
 
