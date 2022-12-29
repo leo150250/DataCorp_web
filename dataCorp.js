@@ -3,15 +3,30 @@ const cena=document.getElementById("cena");
 const detalhamento=document.getElementById("detalhamento");
 const setaDetalhamento=document.getElementById("setaDetalhamento");
 
+const botaoExecutar=document.getElementById("botaoExecutar");
+const inputFrequenciaExecucao=document.getElementById("inputFrequenciaExecucao");
+
 //Variáveis globais
 var objetos=[];
 var objetoDetalhado=null;
+var emExecucao=false;
+var emPausa=false;
+var execucaoSimulacao=null;
+var duracaoUpdates=500;
+var qtdUpdates=0;
+var tempoDecorrido=0.0;
 
 //Classes
 class Objeto {
     constructor(argPosX,argPosY) {
         this.posX=argPosX;
         this.posY=argPosY;
+        this.posXInicial=argPosX;
+        this.posYInicial=argPosY;
+        this.geradoEmExecucao=false;
+        if (emExecucao || emPausa) {
+            this.geradoEmExecucao=true;
+        }
         this.superficie=false;
         this.objetoAcima=null;
         this.objetoAbaixo=null;
@@ -27,6 +42,7 @@ class Objeto {
         this.elementoClicavel.classList.add("clicavel");
         this.tipoClicavel="";
         this.executando=false;
+        this.movimentacao="ease";
     }
     destruir() {
         if (this.elementoClicavel.parentElement==cena) {
@@ -52,6 +68,17 @@ class Objeto {
     update() {
         //Faz nada;
     }
+    reset() {
+        if (this.geradoEmExecucao) {
+            this.destruir();
+        } else {
+            this.posX=this.posXInicial;
+            this.posY=this.posYInicial;
+            this.objetoAcima=null;
+            this.objetoAbaixo=null;
+            this.draw();
+        }
+    }
     softDraw() {
         this.elemento.style.left=(this.posX*32)+"px";
         if (this.elevado) {
@@ -70,6 +97,7 @@ class Objeto {
         this.softDraw();
     }
     mover(argPosX,argPosY) {
+        this.atualizarMovimentacao();
         this.posX=argPosX;
         this.posY=argPosY;
         if (this.objetoAcima!=null) {
@@ -83,7 +111,11 @@ class Objeto {
             if (this.objetoAcima==null) {
                 if (argObjetoPegar.pegavel) {
                     if (!argObjetoPegar.atualizado) {
+                        argObjetoPegar.atualizarMovimentacao();
                         if (argObjetoPegar.objetoAbaixo!=null) {
+                            if (argObjetoPegar.objetoAbaixo.movimentacao=="linear" && this.movimentacao=="linear") {
+                                argObjetoPegar.atualizarMovimentacao("linear");
+                            }
                             argObjetoPegar.objetoAbaixo.objetoAcima=null;
                         }
                         argObjetoPegar.elevado=true;
@@ -106,6 +138,7 @@ class Objeto {
             if (!this.objetoAcima.atualizado) {
                 let superficiesAlvo=obterObjetos(argPosX,argPosY);
                 if (superficiesAlvo.length==0) {
+                    this.objetoAcima.atualizarMovimentacao();
                     this.objetoAcima.elevado=false;
                     this.objetoAcima.objetoAbaixo=null;
                     this.objetoAcima.posX=argPosX;
@@ -118,6 +151,7 @@ class Objeto {
                     let resultado=false;
                     superficiesAlvo.forEach(superficie => {
                         if (superficie===this) {
+                            this.objetoAcima.atualizarMovimentacao();
                             this.objetoAcima.elevado=false;
                             this.objetoAcima.objetoAbaixo=null;
                             this.objetoAcima.posX=argPosX;
@@ -137,6 +171,10 @@ class Objeto {
             }
         }
         return retorno;
+    }
+    atualizarMovimentacao(argTipo="ease") {
+        this.elemento.style.transitionTimingFunction=argTipo;
+        this.elemento.style.transitionDuration=duracaoUpdates+"ms";
     }
 }
 class Dado extends Objeto {
@@ -163,6 +201,11 @@ class Dado extends Objeto {
         cena.removeChild(this.elementoValor);
         super.destruir();
     }
+    atualizarMovimentacao(argTipo="ease") {
+        super.atualizarMovimentacao(argTipo);
+        this.elementoValor.style.transitionTimingFunction=this.elemento.style.transitionTimingFunction;
+        this.elementoValor.style.transitionDuration=this.elemento.style.transitionDuration;
+    }
 }
 class Impressora extends Objeto {
     constructor(argPosX,argPosY) {
@@ -175,7 +218,9 @@ class Impressora extends Objeto {
     update() {
         if (this.executando) {
             if (this.objetoAcima==null) {
-                super.pegarObjeto(criarDado(this.posX,this.posY,this.obterProximoValor()));
+                let novoDado=criarDado(this.posX,this.posY,this.obterProximoValor());
+                novoDado.geradoEmExecucao=true;
+                super.pegarObjeto(novoDado);
             }
         }
     }
@@ -225,7 +270,6 @@ class Funcionario extends Objeto {
         this.balaoFala.classList.add("balaoFala");
         this.balaoFala.style.opacity="0";
         this.balaoFalaTimer=null;
-        cena.appendChild(this.balaoFala);
     }
     update() {
         if (this.executando) {
@@ -339,17 +383,24 @@ class Funcionario extends Objeto {
     }
     draw() {
         cena.appendChild(this.elementoClicavel);
+        cena.appendChild(this.balaoFala);
         super.draw();
+    }
+    reset() {
+        super.reset();
+        if (!this.geradoEmExecucao) {
+            this.sumirBalao();
+            this.acaoCounter=0;
+            this.suspenderExecucao=0;
+        }
     }
     exibirBalao(argTexto) {
         this.balaoFala.style.opacity="1";
         this.balaoFala.innerHTML=argTexto;
         this.atualizarBalao();
-        clearTimeout(this.balaoFalaTimer);
-        this.balaoFalaTimer=setTimeout(this.sumirBalao,3000);
+        //this.balaoFalaTimer=setTimeout(this.sumirBalao,3000);
     }
     sumirBalao() {
-        clearTimeout(this.balaoFalaTimer);
         this.balaoFala.style.opacity="0";
     }
     atualizarBalao() {
@@ -364,6 +415,7 @@ class Esteira extends Objeto {
         this.superficie=true;
         this.direcao="_N";
         this.imagem="esteira"+this.direcao+".svg";
+        this.movimentacao="linear";
     }
     update() {
         if (this.objetoAcima!=null) {
@@ -564,10 +616,62 @@ function ping() {
     });
 }
 function update() {
+    qtdUpdates++;
+    tempoDecorrido+=0.5;
     objetos.forEach(objeto => {
         objeto.update();
     });
     ping();
+}
+function reset() {
+    objetos.forEach(objeto => {
+        objeto.reset();
+    });
+    if (objetoDetalhado!=null) {
+        if (objetoDetalhado.tipoClicavel=="programa") {
+            atualizarProgramCounter(objetoDetalhado.acaoCounter);
+        }
+    }
+}
+function iniciarSimulacao() {
+    emExecucao=true;
+    emPausa=false;
+    clearInterval(execucaoSimulacao);
+    execucaoSimulacao=setInterval(update,duracaoUpdates);
+    botaoExecutar.src="imagens/controle_pausar.svg";
+}
+function pararSimulacao() {
+    emExecucao=false;
+    emPausa=false;
+    clearInterval(execucaoSimulacao);
+    botaoExecutar.src="imagens/controle_executar.svg";
+    qtdUpdates=0;
+    tempoDecorrido=0.0;
+    reset();
+}
+function pausarSimulacao() {
+    emExecucao=false;
+    emPausa=true;
+    clearInterval(execucaoSimulacao);
+    botaoExecutar.src="imagens/controle_executar.svg";
+}
+function alternarSimulacao() {
+    if (emExecucao) {
+        pausarSimulacao();
+    } else {
+        iniciarSimulacao();
+    }
+}
+function passoSimulacao() {
+    pausarSimulacao();
+    update();
+}
+function atualizarFrequenciaExecucao() {
+    duracaoUpdates=parseInt(500/(parseFloat(inputFrequenciaExecucao.value)));
+    if (emExecucao) {
+        clearInterval(execucaoSimulacao);
+        execucaoSimulacao=setInterval(update,duracaoUpdates);
+    }
 }
 
 //Iniciar
@@ -636,9 +740,3 @@ tempFuncionario.acoes=[
 ];
 criarTriturador(11,7);
 ping();
-
-execucaoSimulacao=null;
-function iniciarSimulacao() {
-    clearInterval(execucaoSimulacao);
-    execucaoSimulacao=setInterval(update,500);
-}
