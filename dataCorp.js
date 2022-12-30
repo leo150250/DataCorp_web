@@ -3,15 +3,88 @@ const cena=document.getElementById("cena");
 const detalhamento=document.getElementById("detalhamento");
 const setaDetalhamento=document.getElementById("setaDetalhamento");
 
+const botaoExecutar=document.getElementById("botaoExecutar");
+const inputFrequenciaExecucao=document.getElementById("inputFrequenciaExecucao");
+const spanVelocidade=document.getElementById("spanVelocidade");
+const spanUpdates=document.getElementById("spanUpdates");
+const spanTempo=document.getElementById("spanTempo");
+const divPaleta=document.getElementById("divPaleta");
+
 //Variáveis globais
 var objetos=[];
 var objetoDetalhado=null;
+var emExecucao=false;
+var emPausa=false;
+var execucaoSimulacao=null;
+var duracaoUpdates=500;
+var qtdUpdates=0;
+var tempoDecorrido=0.0;
+
+//Paletas
+paletaFuncionarios=[
+    ["Funcionário","funcionario.svg","Ágeis e independentes, os FUNCIONÁRIOS são capazes de manipular DADOS e EQUIPAMENTOS, realizando sequências de instruções programáveis.</p><p>Os FUNCIONÁRIOS ainda possuem a vantagem de ler toda a sala em que são inseridos como uma grande memória, podendo cada espaço ser referenciado de acordo.</p><p>Ainda, o FUNCIONÁRIO pode trabalhar em conjunto com outros FUNCIONÁRIOS, cada um com suas próprias instruções.","descFuncionario.svg",criarFuncionario],
+    ["Gerente","funcionario_gerente.svg","Os GERENTES podem delegar FUNCIONÁRIOS e COORDENADORES para trabalhar e também manipular DADOS das salas de forma direta, sem cálculos, logo ao iniciar a execução.</p><p>Todo GERENTE, no entanto, aguarda por uma resposta a ser entregue para ele como um DADO, a qual é devidamente avaliada.</p><p>Também, a sala em que o GERENTE se encontra pode ser lida como uma memória.","descGerente.svg",criarGerente],
+    ["Coordenador","funcionario_coordenador.svg","COORDENADORES atuam como FUNCIONÁRIOS mas que não executam as instruções, e sim delegam-nas a OPERÁRIOS, que as manipulam de forma especial e paralela.</p><p>O COORDENADOR ainda é encarregado de, ao final da execução, empacotar todos os DADOS da sala e devolvê-los na porta. Por isto, é recomendado que haja apenas um COORDENADOR nas salas","descFuncionario.svg",criarCoordenador],
+    ["Operário","funcionario_operario.svg","Atuando de forma paralela a outros OPERÁRIOS, estes recebem comandos de um COORDENADOR, que envia um conjunto de instruções para estes executarem.</p><p>Os OPERÁRIOS requerem ainda que suas tarefas sejam devidamente finalizadas para permitir que o COORDENADOR da sala possa empacotar os DADOS manipulados.","descFuncionario.svg",criarOperario]
+];
+paletaEquips=[
+    ["Dado","dado.svg","Cada DADO possui um valor que pode ser verificado e manipulado para permitir que os FUNCIONÁRIOS possam executar suas instruções.</p><p>No caso de valores do tipo numérico, estes podem ser matematicamente operados e também ser utilizados como referências à posições na sala, para uso como memória.</p><p>Para os valores do tipo caracter, estes seguem o padrão ASCII para suas referências.","descDado.svg",criarDado],
+    ["Impressora","impressora.svg","DESC IMPRESSORA","descImpressora.svg",criarImpressora],
+    ["Triturador","triturador.svg","DESC TRITURADOR","descTriturador.svg",criarTriturador],
+    ["Esteira","esteira_N.svg","DESC ESTEIRA","descEsteira.svg",criarEsteira]
+];
+paletaConstrucao=[
+    ["Sala","parede.svg","Descrição salas","descSalas.svg",null],
+    ["Porta","porta.svg","Descrição portas","descPortas.svg",null]
+];
+paletaDecoracao=[
+    ["Planta","planta.svg","Descrição planta","descPlantas.svg",null],
+    ["Mesa","mesa.svg","Descrição mesa","descMesas.svg",null]
+];
+function exibirPaleta(argPaleta) {
+    divPaleta.innerHTML="";
+    argPaleta.forEach(botao => {
+        let novoBotao=document.createElement("button");
+        novoBotao.title=botao[0];
+        let imagemBotao=document.createElement("img");
+        imagemBotao.src="imagens/"+botao[1];
+        novoBotao.onclick=()=>{
+            abrirConstrutor(botao);
+        };
+        novoBotao.appendChild(imagemBotao);
+        divPaleta.appendChild(novoBotao);
+    });
+}
+function abrirConstrutor(argItem) {
+    detalhamento.innerHTML="";
+    ativarDetalhamento();
+    let titulo=document.createElement("h1");
+    let imagemTitulo=document.createElement("img");
+    imagemTitulo.src="imagens/"+argItem[1];
+    imagemTitulo.style.width="64px";
+    titulo.appendChild(imagemTitulo);
+    titulo.innerHTML+=argItem[0];
+    let descricaoImagem=document.createElement("img");
+    descricaoImagem.src="imagens/"+argItem[3];
+    descricaoImagem.classList.add("descricao");
+    let descricaoConstrutor=document.createElement("p");
+    descricaoConstrutor.innerHTML=argItem[2];
+    detalhamento.appendChild(titulo);
+    detalhamento.appendChild(descricaoImagem);
+    detalhamento.appendChild(descricaoConstrutor);
+}
 
 //Classes
 class Objeto {
     constructor(argPosX,argPosY) {
         this.posX=argPosX;
         this.posY=argPosY;
+        this.posXInicial=argPosX;
+        this.posYInicial=argPosY;
+        this.geradoEmExecucao=false;
+        if (emExecucao || emPausa) {
+            this.geradoEmExecucao=true;
+        }
         this.superficie=false;
         this.objetoAcima=null;
         this.objetoAbaixo=null;
@@ -27,6 +100,7 @@ class Objeto {
         this.elementoClicavel.classList.add("clicavel");
         this.tipoClicavel="";
         this.executando=false;
+        this.movimentacao="ease";
     }
     destruir() {
         if (this.elementoClicavel.parentElement==cena) {
@@ -52,6 +126,17 @@ class Objeto {
     update() {
         //Faz nada;
     }
+    reset() {
+        if (this.geradoEmExecucao) {
+            this.destruir();
+        } else {
+            this.posX=this.posXInicial;
+            this.posY=this.posYInicial;
+            this.objetoAcima=null;
+            this.objetoAbaixo=null;
+            this.draw();
+        }
+    }
     softDraw() {
         this.elemento.style.left=(this.posX*32)+"px";
         if (this.elevado) {
@@ -70,6 +155,7 @@ class Objeto {
         this.softDraw();
     }
     mover(argPosX,argPosY) {
+        this.atualizarMovimentacao();
         this.posX=argPosX;
         this.posY=argPosY;
         if (this.objetoAcima!=null) {
@@ -83,7 +169,11 @@ class Objeto {
             if (this.objetoAcima==null) {
                 if (argObjetoPegar.pegavel) {
                     if (!argObjetoPegar.atualizado) {
+                        argObjetoPegar.atualizarMovimentacao();
                         if (argObjetoPegar.objetoAbaixo!=null) {
+                            if (argObjetoPegar.objetoAbaixo.movimentacao=="linear" && this.movimentacao=="linear") {
+                                argObjetoPegar.atualizarMovimentacao("linear");
+                            }
                             argObjetoPegar.objetoAbaixo.objetoAcima=null;
                         }
                         argObjetoPegar.elevado=true;
@@ -106,6 +196,7 @@ class Objeto {
             if (!this.objetoAcima.atualizado) {
                 let superficiesAlvo=obterObjetos(argPosX,argPosY);
                 if (superficiesAlvo.length==0) {
+                    this.objetoAcima.atualizarMovimentacao();
                     this.objetoAcima.elevado=false;
                     this.objetoAcima.objetoAbaixo=null;
                     this.objetoAcima.posX=argPosX;
@@ -118,6 +209,7 @@ class Objeto {
                     let resultado=false;
                     superficiesAlvo.forEach(superficie => {
                         if (superficie===this) {
+                            this.objetoAcima.atualizarMovimentacao();
                             this.objetoAcima.elevado=false;
                             this.objetoAcima.objetoAbaixo=null;
                             this.objetoAcima.posX=argPosX;
@@ -137,6 +229,10 @@ class Objeto {
             }
         }
         return retorno;
+    }
+    atualizarMovimentacao(argTipo="ease") {
+        this.elemento.style.transitionTimingFunction=argTipo;
+        this.elemento.style.transitionDuration=duracaoUpdates+"ms";
     }
 }
 class Dado extends Objeto {
@@ -163,6 +259,11 @@ class Dado extends Objeto {
         cena.removeChild(this.elementoValor);
         super.destruir();
     }
+    atualizarMovimentacao(argTipo="ease") {
+        super.atualizarMovimentacao(argTipo);
+        this.elementoValor.style.transitionTimingFunction=this.elemento.style.transitionTimingFunction;
+        this.elementoValor.style.transitionDuration=this.elemento.style.transitionDuration;
+    }
 }
 class Impressora extends Objeto {
     constructor(argPosX,argPosY) {
@@ -175,7 +276,9 @@ class Impressora extends Objeto {
     update() {
         if (this.executando) {
             if (this.objetoAcima==null) {
-                super.pegarObjeto(criarDado(this.posX,this.posY,this.obterProximoValor()));
+                let novoDado=criarDado(this.posX,this.posY,this.obterProximoValor());
+                novoDado.geradoEmExecucao=true;
+                super.pegarObjeto(novoDado);
             }
         }
     }
@@ -225,7 +328,6 @@ class Funcionario extends Objeto {
         this.balaoFala.classList.add("balaoFala");
         this.balaoFala.style.opacity="0";
         this.balaoFalaTimer=null;
-        cena.appendChild(this.balaoFala);
     }
     update() {
         if (this.executando) {
@@ -339,17 +441,24 @@ class Funcionario extends Objeto {
     }
     draw() {
         cena.appendChild(this.elementoClicavel);
+        cena.appendChild(this.balaoFala);
         super.draw();
+    }
+    reset() {
+        super.reset();
+        if (!this.geradoEmExecucao) {
+            this.sumirBalao();
+            this.acaoCounter=0;
+            this.suspenderExecucao=0;
+        }
     }
     exibirBalao(argTexto) {
         this.balaoFala.style.opacity="1";
         this.balaoFala.innerHTML=argTexto;
         this.atualizarBalao();
-        clearTimeout(this.balaoFalaTimer);
-        this.balaoFalaTimer=setTimeout(this.sumirBalao,3000);
+        //this.balaoFalaTimer=setTimeout(this.sumirBalao,3000);
     }
     sumirBalao() {
-        clearTimeout(this.balaoFalaTimer);
         this.balaoFala.style.opacity="0";
     }
     atualizarBalao() {
@@ -364,6 +473,7 @@ class Esteira extends Objeto {
         this.superficie=true;
         this.direcao="_N";
         this.imagem="esteira"+this.direcao+".svg";
+        this.movimentacao="linear";
     }
     update() {
         if (this.objetoAcima!=null) {
@@ -396,6 +506,26 @@ function criarObjeto(argObjeto,argPosX,argPosY) {
     objetos.push(novoObjeto);
     return novoObjeto;
 }
+function criarFuncionario(argPosX,argPosY) {
+    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    novoFuncionario.draw();
+    return novoFuncionario;
+}
+function criarGerente(argPosX,argPosY) {
+    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    novoFuncionario.draw();
+    return novoFuncionario;
+}
+function criarCoordenador(argPosX,argPosY) {
+    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    novoFuncionario.draw();
+    return novoFuncionario;
+}
+function criarOperario(argPosX,argPosY) {
+    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    novoFuncionario.draw();
+    return novoFuncionario;
+}
 function criarDado(argPosX,argPosY,argValor=null) {
     let novoDado=criarObjeto(Dado,argPosX,argPosY);
     novoDado.definirValor(argValor);
@@ -411,11 +541,6 @@ function criarTriturador(argPosX,argPosY) {
     let novoTriturador=criarObjeto(Triturador,argPosX,argPosY);
     novoTriturador.draw();
     return novoTriturador;
-}
-function criarFuncionario(argPosX,argPosY) {
-    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
-    novoFuncionario.draw();
-    return novoFuncionario;
 }
 function criarEsteira(argPosX,argPosY,argDirecao="_N") {
     let novaEsteira=criarObjeto(Esteira,argPosX,argPosY);
@@ -453,15 +578,11 @@ function obterObjetosPegaveis(argPosX,argPosY) {
 
 //GUI
 function detalharObjeto(argObjeto) {
-    if (objetoDetalhado!=null) {
-        objetoDetalhado.elemento.classList.remove("selecionado");
-    }
+    detalhamento.innerHTML="";
+    ativarDetalhamento();
     objetoDetalhado=argObjeto;
     objetoDetalhado.elemento.classList.add("selecionado");
     console.log(objetoDetalhado);
-    detalhamento.innerHTML="";
-    detalhamento.onscroll=null;
-    detalhamento.style.display="block";
     setaDetalhamento.style.display="block";
     if (objetoDetalhado.tipoClicavel=="programa") {
         objetoDetalhado.acoes.forEach((acao,counter)=>{
@@ -473,6 +594,15 @@ function detalharObjeto(argObjeto) {
         }
     }
 }
+function ativarDetalhamento() {
+    if (objetoDetalhado!=null) {
+        objetoDetalhado.elemento.classList.remove("selecionado");
+    }
+    detalhamento.onscroll=null;
+    detalhamento.style.display="block";
+    cena.style.width="calc(100% - "+detalhamento.offsetWidth+"px)";
+    setaDetalhamento.style.display="none";
+}
 function desativarDetalhamento() {
     if (objetoDetalhado!=null) {
         objetoDetalhado.elemento.classList.remove("selecionado");
@@ -480,6 +610,7 @@ function desativarDetalhamento() {
     detalhamento.style.display="none";
     setaDetalhamento.style.display="none";
     cena.onclick=null;
+    cena.style.width="100%";
 }
 function criarCardProgramacao(argAcao,argCounter) {
     let novoCard=document.createElement("div");
@@ -564,10 +695,67 @@ function ping() {
     });
 }
 function update() {
+    qtdUpdates++;
+    spanUpdates.innerHTML=qtdUpdates;
+    tempoDecorrido+=0.5;
+    spanTempo.innerHTML=Math.floor(tempoDecorrido/60).toString().padStart(2,'0')+":"+Math.floor(tempoDecorrido%60).toString().padStart(2,'0');
     objetos.forEach(objeto => {
         objeto.update();
     });
     ping();
+}
+function reset() {
+    objetos.forEach(objeto => {
+        objeto.reset();
+    });
+    if (objetoDetalhado!=null) {
+        if (objetoDetalhado.tipoClicavel=="programa") {
+            atualizarProgramCounter(objetoDetalhado.acaoCounter);
+        }
+    }
+}
+function iniciarSimulacao() {
+    emExecucao=true;
+    emPausa=false;
+    clearInterval(execucaoSimulacao);
+    execucaoSimulacao=setInterval(update,duracaoUpdates);
+    botaoExecutar.src="imagens/controle_pausar.svg";
+}
+function pararSimulacao() {
+    emExecucao=false;
+    emPausa=false;
+    clearInterval(execucaoSimulacao);
+    botaoExecutar.src="imagens/controle_executar.svg";
+    qtdUpdates=0;
+    spanUpdates.innerHTML=qtdUpdates;
+    tempoDecorrido=0.0;
+    spanTempo.innerHTML=Math.floor(tempoDecorrido/60).toString().padStart(2,'0')+":"+Math.floor(tempoDecorrido%60).toString().padStart(2,'0');
+    reset();
+}
+function pausarSimulacao() {
+    emExecucao=false;
+    emPausa=true;
+    clearInterval(execucaoSimulacao);
+    botaoExecutar.src="imagens/controle_executar.svg";
+}
+function alternarSimulacao() {
+    if (emExecucao) {
+        pausarSimulacao();
+    } else {
+        iniciarSimulacao();
+    }
+}
+function passoSimulacao() {
+    pausarSimulacao();
+    update();
+}
+function atualizarFrequenciaExecucao() {
+    duracaoUpdates=parseInt(500/(parseFloat(inputFrequenciaExecucao.value)));
+    spanVelocidade.innerHTML=inputFrequenciaExecucao.value+"x";
+    if (emExecucao) {
+        clearInterval(execucaoSimulacao);
+        execucaoSimulacao=setInterval(update,duracaoUpdates);
+    }
 }
 
 //Iniciar
@@ -636,9 +824,4 @@ tempFuncionario.acoes=[
 ];
 criarTriturador(11,7);
 ping();
-
-execucaoSimulacao=null;
-function iniciarSimulacao() {
-    clearInterval(execucaoSimulacao);
-    execucaoSimulacao=setInterval(update,500);
-}
+exibirPaleta(paletaFuncionarios);
