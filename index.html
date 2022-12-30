@@ -9,15 +9,17 @@
             <div id="cena"></div>
             <div id="detalhamento"></div>
             <img id="setaDetalhamento" src="imagens/seta.svg">
-            <div id="barraControle">
+            <div id="barraControle" class="flex">
                 <button onclick="alternarSimulacao()"><img id="botaoExecutar" src="imagens/controle_executar.svg"></button>
                 <button onclick="pararSimulacao()"><img src="imagens/controle_parar.svg"></button>
                 <button onclick="passoSimulacao()"><img src="imagens/controle_passo.svg"></button>
-                <div>
+                <div class="flex coluna largo">
                     <input id="inputFrequenciaExecucao" onchange="atualizarFrequenciaExecucao()" type="range" min="0.5" max="4" value="1" step="0.5">
-                    <span id="spanVelocidade">1x</span>
-                    <span id="spanUpdates">0</span>
-                    <span id="spanTempo">00:00</span>
+                    <div class="flex largo">
+                        <span id="spanVelocidade">1x</span>
+                        <span id="spanUpdates">0</span>
+                        <span id="spanTempo">00:00</span>
+                    </div>
                 </div>
             </div>
         </div>

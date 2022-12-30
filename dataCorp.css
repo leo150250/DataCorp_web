@@ -3,7 +3,7 @@ body {
     height: 100%;
     margin: 0;
     overflow: hidden;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: monospace;
 }
 #cena {
     width: 100%;
@@ -127,8 +127,8 @@ body {
     background-color: #222;
     bottom: 0px;
     height: 64px;
-    display: flex;
     z-index: 100;
+    color: #EEE;
 }
 #barraControle button {
     background-color: #444;
@@ -145,4 +145,13 @@ body {
 #barraControle button:active {
     background-color: #333;
     top: 1px;
+}
+.flex {
+    display: flex;
+}
+.flex.largo {
+    justify-content: space-evenly;
+}
+.flex.coluna {
+    flex-direction: column;
 }

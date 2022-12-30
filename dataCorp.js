@@ -5,6 +5,9 @@ const setaDetalhamento=document.getElementById("setaDetalhamento");
 
 const botaoExecutar=document.getElementById("botaoExecutar");
 const inputFrequenciaExecucao=document.getElementById("inputFrequenciaExecucao");
+const spanVelocidade=document.getElementById("spanVelocidade");
+const spanUpdates=document.getElementById("spanUpdates");
+const spanTempo=document.getElementById("spanTempo");
 
 //Variáveis globais
 var objetos=[];
@@ -617,7 +620,9 @@ function ping() {
 }
 function update() {
     qtdUpdates++;
+    spanUpdates.innerHTML=qtdUpdates;
     tempoDecorrido+=0.5;
+    spanTempo.innerHTML=Math.floor(tempoDecorrido/60).toString().padStart(2,'0')+":"+Math.floor(tempoDecorrido%60).toString().padStart(2,'0');
     objetos.forEach(objeto => {
         objeto.update();
     });
@@ -646,7 +651,9 @@ function pararSimulacao() {
     clearInterval(execucaoSimulacao);
     botaoExecutar.src="imagens/controle_executar.svg";
     qtdUpdates=0;
+    spanUpdates.innerHTML=qtdUpdates;
     tempoDecorrido=0.0;
+    spanTempo.innerHTML=Math.floor(tempoDecorrido/60).toString().padStart(2,'0')+":"+Math.floor(tempoDecorrido%60).toString().padStart(2,'0');
     reset();
 }
 function pausarSimulacao() {
@@ -668,6 +675,7 @@ function passoSimulacao() {
 }
 function atualizarFrequenciaExecucao() {
     duracaoUpdates=parseInt(500/(parseFloat(inputFrequenciaExecucao.value)));
+    spanVelocidade.innerHTML=inputFrequenciaExecucao.value+"x";
     if (emExecucao) {
         clearInterval(execucaoSimulacao);
         execucaoSimulacao=setInterval(update,duracaoUpdates);
