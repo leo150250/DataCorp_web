@@ -6,7 +6,7 @@ body {
     font-family: monospace;
 }
 #cena {
-    width: 100%;
+    width: calc(100% - 320px);
     height: calc(100% - 64px);
     background: url("imagens/grade.svg") repeat local;
     overflow: scroll;
@@ -52,13 +52,13 @@ body {
     pointer-events: none;
 }
 #detalhamento {
-    width: 30%;
-    height: calc(100% - 100px);
-    background-color: #EEE;
+    width: 300px;
+    height: calc(100% - 84px);
+    background-color: #333;
+    color: #EEE;
     position: fixed;
-    top: 20px;
-    right: 20px;
-    box-shadow: 0px 5px 20px #0008;
+    top: 0px;
+    right: 0px;
     z-index: 100;
     padding: 10px;
     overflow-y: auto;
@@ -75,6 +75,7 @@ body {
     display: flex;
     align-items: center;
     width: fit-content;
+    color: #222;
 }
 .card.mover {
     background-color: #80dd80;
@@ -121,6 +122,21 @@ body {
     z-index: 101;
     transition: 0.1s;
 }
+#detalhamento h1 {
+    background-color: #222;
+    margin: -10px;
+    padding: 10px;
+}
+#detalhamento h1 * {
+    vertical-align: middle;
+    margin: 0px 10px;
+}
+#detalhamento img.descricao {
+    margin: 10px -10px;
+    display: block;
+    max-width: calc(100% + 20px);
+    background-color: #DDD;
+}
 #barraControle {
     position: fixed;
     width: 100%;
@@ -146,12 +162,21 @@ body {
     background-color: #333;
     top: 1px;
 }
+#barraControle hr {
+    margin: 5px;
+    border-color: #222;
+}
 .flex {
     display: flex;
 }
-.flex.largo {
-    justify-content: space-evenly;
+.flex.largo * {
+    flex-grow: 2;
 }
 .flex.coluna {
     flex-direction: column;
+}
+#divPaleta {
+    overflow-x: scroll;
+    flex-grow: 2;
+    overflow-y: hidden;
 }

@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="320"
+   height="320"
+   viewBox="0 0 84.666667 84.666667"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="piso.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="true"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="1.19375"
+     inkscape:cx="67.015707"
+     inkscape:cy="115.60209"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid326"
+       spacingx="8.4666667"
+       spacingy="8.4666667"
+       empspacing="6"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3379"
+       x="-0.195"
+       y="-0.19500001"
+       width="1.39"
+       height="1.39">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.4395837"
+         id="feGaussianBlur3381" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3383"
+       x="-0.24374996"
+       y="-0.16250002"
+       width="1.4874999"
+       height="1.325">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.4395837"
+         id="feGaussianBlur3385" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3387"
+       x="-0.48750003"
+       y="-0.24375002"
+       width="1.9750001"
+       height="1.4875">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.4395837"
+         id="feGaussianBlur3389" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3391"
+       x="-0.19500001"
+       y="-0.32499997"
+       width="1.39"
+       height="1.6499999">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.4395837"
+         id="feGaussianBlur3393" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3395"
+       x="-0.48750003"
+       y="-0.24375002"
+       width="1.9750001"
+       height="1.4875">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.4395837"
+         id="feGaussianBlur3397" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3399"
+       x="-0.32499992"
+       y="-0.16250002"
+       width="1.6499998"
+       height="1.325">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.4395837"
+         id="feGaussianBlur3401" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3403"
+       x="-0.19500001"
+       y="-0.32499997"
+       width="1.39"
+       height="1.6499999">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.4395837"
+         id="feGaussianBlur3405" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3209"
+       style="fill:#f9f9f9">
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3059"
+         width="8.4666662"
+         height="8.4666662"
+         x="0"
+         y="0" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3061"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="3.0883955e-09" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3063"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="4.8146973e-07" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3065"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="-4.7529298e-07" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3067"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="4.8146973e-07" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3069"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="8.4666672" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3071"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="8.4666672" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3073"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="8.4666681" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3075"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="8.4666672" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3077"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="8.4666681" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3079"
+         width="8.4666662"
+         height="8.4666662"
+         x="-4.7529298e-07"
+         y="16.933332" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3081"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="16.933332" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3083"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="16.933334" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3085"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="16.933332" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3087"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="16.933334" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3089"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="25.400002" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3091"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="25.400002" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3093"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="25.400003" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3095"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="25.400002" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3097"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="25.400003" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3099"
+         width="8.4666662"
+         height="8.4666662"
+         x="4.7838137e-07"
+         y="33.866665" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3101"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="33.866665" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3103"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="33.866669" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3105"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="33.866665" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3107"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="33.866669" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3109"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="42.333332" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3111"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="42.333332" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3113"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="42.333336" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3115"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="42.333332" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3117"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="42.333336" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3119"
+         width="8.4666662"
+         height="8.4666662"
+         x="-4.7529298e-07"
+         y="50.799999" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3121"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="50.799999" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3123"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="50.800003" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3125"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="50.799999" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3127"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="50.800003" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3129"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="59.266666" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3131"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="59.266666" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3133"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="59.26667" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3135"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="59.266666" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3137"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="59.26667" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3139"
+         width="8.4666662"
+         height="8.4666662"
+         x="-4.7529298e-07"
+         y="67.733337" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3141"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="67.733337" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3143"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="67.733337" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3145"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="67.733337" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3147"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="67.733337" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3149"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="76.199997" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3151"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="76.199997" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3153"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="76.199997" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3155"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="76.199997" />
+      <rect
+         style="fill:#f9f9f9;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3157"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="76.199997" />
+    </g>
+    <g
+       id="g3311"
+       style="fill:#f2f2f2"
+       transform="matrix(-1,0,0,1,84.66667,0)">
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3211"
+         width="8.4666662"
+         height="8.4666662"
+         x="0"
+         y="0" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3213"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="3.0883955e-09" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3215"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="4.8146973e-07" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3217"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="-4.7529298e-07" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3219"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="4.8146973e-07" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3221"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="8.4666672" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3223"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="8.4666672" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3225"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="8.4666681" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3227"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="8.4666672" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3229"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="8.4666681" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3231"
+         width="8.4666662"
+         height="8.4666662"
+         x="-4.7529298e-07"
+         y="16.933332" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3233"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="16.933332" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3235"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="16.933334" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3237"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="16.933332" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3239"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="16.933334" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3241"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="25.400002" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3243"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="25.400002" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3245"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="25.400003" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3247"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="25.400002" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3249"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="25.400003" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3251"
+         width="8.4666662"
+         height="8.4666662"
+         x="4.7838137e-07"
+         y="33.866665" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3253"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="33.866665" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3255"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="33.866669" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3257"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="33.866665" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3259"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="33.866669" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3261"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="42.333332" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3263"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="42.333332" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3265"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="42.333336" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3267"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="42.333332" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3269"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="42.333336" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3271"
+         width="8.4666662"
+         height="8.4666662"
+         x="-4.7529298e-07"
+         y="50.799999" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3273"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="50.799999" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3275"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="50.800003" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3277"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="50.799999" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3279"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="50.800003" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3281"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="59.266666" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3283"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="59.266666" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3285"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="59.26667" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3287"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="59.266666" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3289"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="59.26667" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3291"
+         width="8.4666662"
+         height="8.4666662"
+         x="-4.7529298e-07"
+         y="67.733337" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3293"
+         width="8.4666662"
+         height="8.4666662"
+         x="16.933334"
+         y="67.733337" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3295"
+         width="8.4666662"
+         height="8.4666662"
+         x="33.866669"
+         y="67.733337" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3297"
+         width="8.4666662"
+         height="8.4666662"
+         x="50.799999"
+         y="67.733337" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3299"
+         width="8.4666662"
+         height="8.4666662"
+         x="67.733337"
+         y="67.733337" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3301"
+         width="8.4666662"
+         height="8.4666662"
+         x="8.4666672"
+         y="76.199997" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3303"
+         width="8.4666662"
+         height="8.4666662"
+         x="25.400002"
+         y="76.199997" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3305"
+         width="8.4666662"
+         height="8.4666662"
+         x="42.333336"
+         y="76.199997" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3307"
+         width="8.4666662"
+         height="8.4666662"
+         x="59.266666"
+         y="76.199997" />
+      <rect
+         style="fill:#f2f2f2;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.132292, 0.132292;paint-order:stroke fill markers;stop-color:#000000"
+         id="rect3309"
+         width="8.4666662"
+         height="8.4666662"
+         x="76.200005"
+         y="76.199997" />
+    </g>
+    <rect
+       style="fill:#000000;stroke-width:0.432062;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.216032, 0.216032;paint-order:stroke fill markers;stop-color:#000000;opacity:0.1;filter:url(#filter3395)"
+       id="rect3365"
+       width="16.933334"
+       height="33.866669"
+       x="16.933332"
+       y="16.933331" />
+    <rect
+       style="fill:#000000;stroke-width:0.432062;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.216032, 0.216032;paint-order:stroke fill markers;stop-color:#000000;opacity:0.1;filter:url(#filter3387)"
+       id="rect3367"
+       width="16.933334"
+       height="33.866669"
+       x="33.866665"
+       y="-1.4274231e-06" />
+    <rect
+       style="fill:#000000;stroke-width:0.748353;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.374178, 0.374178;paint-order:stroke fill markers;stop-color:#000000;opacity:0.1;filter:url(#filter3383)"
+       id="rect3369"
+       width="33.866676"
+       height="50.799999"
+       x="67.73333"
+       y="16.933334" />
+    <rect
+       style="fill:#000000;stroke-width:0.591625;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.295814, 0.295814;paint-order:stroke fill markers;stop-color:#000000;opacity:0.1;filter:url(#filter3403)"
+       id="rect3371"
+       width="42.333336"
+       height="25.400005"
+       x="7.1054274e-15"
+       y="59.266666" />
+    <rect
+       style="fill:#000000;stroke-width:0.648093;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.324048, 0.324048;paint-order:stroke fill markers;stop-color:#000000;opacity:0.1;filter:url(#filter3399)"
+       id="rect3373"
+       width="25.400009"
+       height="50.799999"
+       x="-16.933342"
+       y="16.933332" />
+    <rect
+       style="fill:#000000;stroke-width:0.591625;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.295814, 0.295814;paint-order:stroke fill markers;stop-color:#000000;opacity:0.1;filter:url(#filter3391)"
+       id="rect3375"
+       width="42.333336"
+       height="25.400005"
+       x="-9.3823246e-07"
+       y="-16.933338" />
+    <rect
+       style="fill:#000000;stroke-width:0.763785;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:0.381895, 0.381895;paint-order:stroke fill markers;stop-color:#000000;opacity:0.1;filter:url(#filter3379)"
+       id="rect3377"
+       width="42.33334"
+       height="42.333336"
+       x="33.866661"
+       y="25.4" />
+  </g>
+</svg>

@@ -8,6 +8,7 @@ const inputFrequenciaExecucao=document.getElementById("inputFrequenciaExecucao")
 const spanVelocidade=document.getElementById("spanVelocidade");
 const spanUpdates=document.getElementById("spanUpdates");
 const spanTempo=document.getElementById("spanTempo");
+const divPaleta=document.getElementById("divPaleta");
 
 //Variáveis globais
 var objetos=[];
@@ -18,6 +19,60 @@ var execucaoSimulacao=null;
 var duracaoUpdates=500;
 var qtdUpdates=0;
 var tempoDecorrido=0.0;
+
+//Paletas
+paletaFuncionarios=[
+    ["Funcionário","funcionario.svg","Ágeis e independentes, os FUNCIONÁRIOS são capazes de manipular DADOS e EQUIPAMENTOS, realizando sequências de instruções programáveis.</p><p>Os FUNCIONÁRIOS ainda possuem a vantagem de ler toda a sala em que são inseridos como uma grande memória, podendo cada espaço ser referenciado de acordo.</p><p>Ainda, o FUNCIONÁRIO pode trabalhar em conjunto com outros FUNCIONÁRIOS, cada um com suas próprias instruções.","descFuncionario.svg",criarFuncionario],
+    ["Gerente","funcionario_gerente.svg","Os GERENTES podem delegar FUNCIONÁRIOS e COORDENADORES para trabalhar e também manipular DADOS das salas de forma direta, sem cálculos, logo ao iniciar a execução.</p><p>Todo GERENTE, no entanto, aguarda por uma resposta a ser entregue para ele como um DADO, a qual é devidamente avaliada.</p><p>Também, a sala em que o GERENTE se encontra pode ser lida como uma memória.","descGerente.svg",criarGerente],
+    ["Coordenador","funcionario_coordenador.svg","COORDENADORES atuam como FUNCIONÁRIOS mas que não executam as instruções, e sim delegam-nas a OPERÁRIOS, que as manipulam de forma especial e paralela.</p><p>O COORDENADOR ainda é encarregado de, ao final da execução, empacotar todos os DADOS da sala e devolvê-los na porta. Por isto, é recomendado que haja apenas um COORDENADOR nas salas","descFuncionario.svg",criarCoordenador],
+    ["Operário","funcionario_operario.svg","Atuando de forma paralela a outros OPERÁRIOS, estes recebem comandos de um COORDENADOR, que envia um conjunto de instruções para estes executarem.</p><p>Os OPERÁRIOS requerem ainda que suas tarefas sejam devidamente finalizadas para permitir que o COORDENADOR da sala possa empacotar os DADOS manipulados.","descFuncionario.svg",criarOperario]
+];
+paletaEquips=[
+    ["Dado","dado.svg","Cada DADO possui um valor que pode ser verificado e manipulado para permitir que os FUNCIONÁRIOS possam executar suas instruções.</p><p>No caso de valores do tipo numérico, estes podem ser matematicamente operados e também ser utilizados como referências à posições na sala, para uso como memória.</p><p>Para os valores do tipo caracter, estes seguem o padrão ASCII para suas referências.","descDado.svg",criarDado],
+    ["Impressora","impressora.svg","DESC IMPRESSORA","descImpressora.svg",criarImpressora],
+    ["Triturador","triturador.svg","DESC TRITURADOR","descTriturador.svg",criarTriturador],
+    ["Esteira","esteira_N.svg","DESC ESTEIRA","descEsteira.svg",criarEsteira]
+];
+paletaConstrucao=[
+    ["Sala","parede.svg","Descrição salas","descSalas.svg",null],
+    ["Porta","porta.svg","Descrição portas","descPortas.svg",null]
+];
+paletaDecoracao=[
+    ["Planta","planta.svg","Descrição planta","descPlantas.svg",null],
+    ["Mesa","mesa.svg","Descrição mesa","descMesas.svg",null]
+];
+function exibirPaleta(argPaleta) {
+    divPaleta.innerHTML="";
+    argPaleta.forEach(botao => {
+        let novoBotao=document.createElement("button");
+        novoBotao.title=botao[0];
+        let imagemBotao=document.createElement("img");
+        imagemBotao.src="imagens/"+botao[1];
+        novoBotao.onclick=()=>{
+            abrirConstrutor(botao);
+        };
+        novoBotao.appendChild(imagemBotao);
+        divPaleta.appendChild(novoBotao);
+    });
+}
+function abrirConstrutor(argItem) {
+    detalhamento.innerHTML="";
+    ativarDetalhamento();
+    let titulo=document.createElement("h1");
+    let imagemTitulo=document.createElement("img");
+    imagemTitulo.src="imagens/"+argItem[1];
+    imagemTitulo.style.width="64px";
+    titulo.appendChild(imagemTitulo);
+    titulo.innerHTML+=argItem[0];
+    let descricaoImagem=document.createElement("img");
+    descricaoImagem.src="imagens/"+argItem[3];
+    descricaoImagem.classList.add("descricao");
+    let descricaoConstrutor=document.createElement("p");
+    descricaoConstrutor.innerHTML=argItem[2];
+    detalhamento.appendChild(titulo);
+    detalhamento.appendChild(descricaoImagem);
+    detalhamento.appendChild(descricaoConstrutor);
+}
 
 //Classes
 class Objeto {
@@ -451,6 +506,26 @@ function criarObjeto(argObjeto,argPosX,argPosY) {
     objetos.push(novoObjeto);
     return novoObjeto;
 }
+function criarFuncionario(argPosX,argPosY) {
+    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    novoFuncionario.draw();
+    return novoFuncionario;
+}
+function criarGerente(argPosX,argPosY) {
+    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    novoFuncionario.draw();
+    return novoFuncionario;
+}
+function criarCoordenador(argPosX,argPosY) {
+    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    novoFuncionario.draw();
+    return novoFuncionario;
+}
+function criarOperario(argPosX,argPosY) {
+    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    novoFuncionario.draw();
+    return novoFuncionario;
+}
 function criarDado(argPosX,argPosY,argValor=null) {
     let novoDado=criarObjeto(Dado,argPosX,argPosY);
     novoDado.definirValor(argValor);
@@ -466,11 +541,6 @@ function criarTriturador(argPosX,argPosY) {
     let novoTriturador=criarObjeto(Triturador,argPosX,argPosY);
     novoTriturador.draw();
     return novoTriturador;
-}
-function criarFuncionario(argPosX,argPosY) {
-    let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
-    novoFuncionario.draw();
-    return novoFuncionario;
 }
 function criarEsteira(argPosX,argPosY,argDirecao="_N") {
     let novaEsteira=criarObjeto(Esteira,argPosX,argPosY);
@@ -508,15 +578,11 @@ function obterObjetosPegaveis(argPosX,argPosY) {
 
 //GUI
 function detalharObjeto(argObjeto) {
-    if (objetoDetalhado!=null) {
-        objetoDetalhado.elemento.classList.remove("selecionado");
-    }
+    detalhamento.innerHTML="";
+    ativarDetalhamento();
     objetoDetalhado=argObjeto;
     objetoDetalhado.elemento.classList.add("selecionado");
     console.log(objetoDetalhado);
-    detalhamento.innerHTML="";
-    detalhamento.onscroll=null;
-    detalhamento.style.display="block";
     setaDetalhamento.style.display="block";
     if (objetoDetalhado.tipoClicavel=="programa") {
         objetoDetalhado.acoes.forEach((acao,counter)=>{
@@ -528,6 +594,15 @@ function detalharObjeto(argObjeto) {
         }
     }
 }
+function ativarDetalhamento() {
+    if (objetoDetalhado!=null) {
+        objetoDetalhado.elemento.classList.remove("selecionado");
+    }
+    detalhamento.onscroll=null;
+    detalhamento.style.display="block";
+    cena.style.width="calc(100% - "+detalhamento.offsetWidth+"px)";
+    setaDetalhamento.style.display="none";
+}
 function desativarDetalhamento() {
     if (objetoDetalhado!=null) {
         objetoDetalhado.elemento.classList.remove("selecionado");
@@ -535,6 +610,7 @@ function desativarDetalhamento() {
     detalhamento.style.display="none";
     setaDetalhamento.style.display="none";
     cena.onclick=null;
+    cena.style.width="100%";
 }
 function criarCardProgramacao(argAcao,argCounter) {
     let novoCard=document.createElement("div");
@@ -748,3 +824,4 @@ tempFuncionario.acoes=[
 ];
 criarTriturador(11,7);
 ping();
+exibirPaleta(paletaFuncionarios);

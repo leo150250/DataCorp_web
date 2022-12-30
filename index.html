@@ -16,10 +16,23 @@
                 <div class="flex coluna largo">
                     <input id="inputFrequenciaExecucao" onchange="atualizarFrequenciaExecucao()" type="range" min="0.5" max="4" value="1" step="0.5">
                     <div class="flex largo">
-                        <span id="spanVelocidade">1x</span>
-                        <span id="spanUpdates">0</span>
-                        <span id="spanTempo">00:00</span>
+                        <span id="spanVelocidade" style="text-align: center">1x</span>
+                        <span id="spanUpdates" style="text-align: center">0</span>
+                        <span id="spanTempo" style="text-align: center">00:00</span>
                     </div>
+                </div>
+                <hr>
+                <div class="flex coluna largo">
+                    <div class="flex largo">
+                        <button onclick="exibirPaleta(paletaFuncionarios)" title="Funcionários">A</button>
+                        <button onclick="exibirPaleta(paletaEquips)" title="Equipamentos">B</button>
+                    </div>
+                    <div class="flex largo">
+                        <button onclick="exibirPaleta(paletaConstrucao)" title="Construção">C</button>
+                        <button onclick="exibirPaleta(paletaDecoracao)" title="Decoração">D</button>
+                    </div>
+                </div>
+                <div class="flex" id="divPaleta">
                 </div>
             </div>
         </div>
