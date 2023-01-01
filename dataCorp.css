@@ -153,6 +153,7 @@ body {
     cursor: pointer;
     border: none;
     user-select: none;
+    outline: none;
 }
 #barraControle button:hover {
     top: -1px;
@@ -179,4 +180,13 @@ body {
     overflow-x: scroll;
     flex-grow: 2;
     overflow-y: hidden;
+}
+.construcaoCursor {
+    position: absolute;
+    filter: contrast(0.5) sepia(1);
+    background-color: #0ebc4540;
+    outline: #0F0 2px solid;
+    opacity: 0.75;
+    z-index: 10;
+    pointer-events: none;
 }

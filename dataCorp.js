@@ -19,6 +19,10 @@ var execucaoSimulacao=null;
 var duracaoUpdates=500;
 var qtdUpdates=0;
 var tempoDecorrido=0.0;
+var construindo=false;
+var construcaoCursor=document.createElement("img");
+construcaoCursor.classList.add("construcaoCursor");
+var construcaoItens=[];
 
 //Paletas
 paletaFuncionarios=[
@@ -72,6 +76,8 @@ function abrirConstrutor(argItem) {
     detalhamento.appendChild(titulo);
     detalhamento.appendChild(descricaoImagem);
     detalhamento.appendChild(descricaoConstrutor);
+    construindo=true;
+    construcaoCursor.src="imagens/"+argItem[1];
 }
 
 //Classes
@@ -611,6 +617,12 @@ function desativarDetalhamento() {
     setaDetalhamento.style.display="none";
     cena.onclick=null;
     cena.style.width="100%";
+    if (construindo) {
+        construindo=false;
+        if (construcaoCursor.parentElement!=null) {
+            cena.removeChild(construcaoCursor);
+        }
+    }
 }
 function criarCardProgramacao(argAcao,argCounter) {
     let novoCard=document.createElement("div");
@@ -681,8 +693,36 @@ function atualizarSetaProgramCounter(argContador) {
     setaDetalhamento.style.top=detalhamento.children[argContador].offsetTop+20-detalhamento.scrollTop;
     setaDetalhamento.style.left=detalhamento.offsetLeft-20;
 }
+
+//Event listeners
 cena.addEventListener("click",(e)=>{
-    if (e.target==cena) {
+    if (e.target==cena && !construindo) {
+        desativarDetalhamento();
+    } else if (construindo) {
+        //OEEE;
+    }
+});
+cena.addEventListener("mousemove",(e)=>{
+    if (construindo) {
+        construcaoCursor.style.left=e.clientX-(e.clientX%32);
+        construcaoCursor.style.top=e.clientY-(e.clientY%32);
+    }
+});
+cena.addEventListener("mouseover",(e)=>{
+    if (construindo) {
+        cena.appendChild(construcaoCursor);
+    }
+});
+cena.addEventListener("mouseout",(e)=>{
+    if (construindo) {
+        if (construcaoCursor.parentElement!=null) {
+            cena.removeChild(construcaoCursor);
+        }
+    }
+});
+document.body.addEventListener("keyup",(e)=>{
+    console.log(e.key);
+    if (e.key=="Escape") {
         desativarDetalhamento();
     }
 });
