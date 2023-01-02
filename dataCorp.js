@@ -100,6 +100,9 @@ class Objeto {
         this.elemento=document.createElement("object");
         this.elemento.width="32px";
         this.elemento.height="32px";
+        this.elemento.style.zIndex=-1000+this.posY;
+        this.offsetX=0;
+        this.offsetY=0;
         this.elemento.classList.add("objeto");
         this.atualizado=false;
         this.elementoClicavel=document.createElement("div");
@@ -144,11 +147,11 @@ class Objeto {
         }
     }
     softDraw() {
-        this.elemento.style.left=(this.posX*32)+"px";
+        this.elemento.style.left=((this.posX*32)+this.offsetX)+"px";
         if (this.elevado) {
-            this.elemento.style.top=((this.posY*32)-8)+"px";
+            this.elemento.style.top=(((this.posY*32)-8)+this.offsetY)+"px";
         } else {
-            this.elemento.style.top=(this.posY*32)+"px";
+            this.elemento.style.top=((this.posY*32)+this.offsetY)+"px";
         }
         this.elementoClicavel.style.left=this.elemento.style.left;
         this.elementoClicavel.style.top=this.elemento.style.top;
@@ -505,6 +508,36 @@ class Esteira extends Objeto {
         super.draw();
     }
 }
+class Parede extends Objeto {
+    constructor(argPosX,argPosY) {
+        super(argPosX,argPosY);
+        this.imagem="parede.svg";
+        this.offsetY=-8;
+        this.elemento.height="40px";
+    }
+}
+class Porta extends Objeto {
+    constructor(argPosX,argPosY) {
+        super(argPosX,argPosY);
+        this.imagem="porta.svg";
+    }
+}
+class Sala {
+    constructor(argPosX,argPosY,argTamX=1,argTamY=1) {
+        this.posX=argPosX;
+        this.posY=argPosY;
+        this.tamX=argTamX;
+        this.tamY=argTamY;
+        this.elementoPiso=document.createElement("div");
+        this.elementoPiso.style.zIndex=-1001;
+        this.elementoPiso.classList.add("piso");
+        this.elementoPiso.style.left=this.posX*32;
+        this.elementoPiso.style.top=this.posY*32;
+        this.elementoPiso.style.width=this.tamX*32;
+        this.elementoPiso.style.height=this.tamY*32;
+        cena.appendChild(this.elementoPiso);
+    }
+}
 
 //Criação de objetos
 function criarObjeto(argObjeto,argPosX,argPosY) {
@@ -553,6 +586,33 @@ function criarEsteira(argPosX,argPosY,argDirecao="_N") {
     novaEsteira.direcao=argDirecao;
     novaEsteira.draw();
     return novaEsteira;
+}
+
+//Criação de salas
+function criarSala(argPosX,argPosY,argTamX=1,argTamY=1) {
+    let novaSala=new Sala(argPosX-1,argPosY-1,argTamX+2,argTamY+2);
+    for (let i=argPosX-1; i<argPosX+argTamX; i++) {
+        criarParede(i,argPosY-1);
+        criarParede(i+1,argPosY+argTamY);
+    }
+    for (let i=argPosY-1; i<argPosY+argTamY; i++) {
+        criarParede(argPosX-1,i+1);
+        criarParede(argPosX+argTamX,i);
+    }
+}
+function criarParede(argPosX,argPosY) {
+    let novaParede=criarObjeto(Parede,argPosX,argPosY);
+    novaParede.draw();
+    return novaParede;
+}
+function criarPorta(argPosX,argPosY) {
+    paredeDestruir=obterObjetos(argPosX,argPosY);
+    paredeDestruir.forEach((parede)=>{
+        parede.destruir();
+    })
+    let novaPorta=criarObjeto(Porta,argPosX,argPosY);
+    novaPorta.draw();
+    return novaPorta;
 }
 
 //Checagem de objetos
@@ -800,6 +860,8 @@ function atualizarFrequenciaExecucao() {
 
 //Iniciar
 desativarDetalhamento();
+criarSala(1,1,12,9);
+criarPorta(6,10);
 criarImpressora(1,6);
 criarDado(2,6,50);
 criarEsteira(3,5,"_N");

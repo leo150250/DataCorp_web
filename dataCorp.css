@@ -51,6 +51,10 @@ body {
     margin: 18px 10px;
     pointer-events: none;
 }
+#cena .piso {
+    background: url("imagens/piso.svg") repeat;
+    position: absolute;
+}
 #detalhamento {
     width: 300px;
     height: calc(100% - 84px);
