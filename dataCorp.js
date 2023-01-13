@@ -38,12 +38,13 @@ paletaEquips=[
     ["Esteira","esteira_N.svg","DESC ESTEIRA","descEsteira.svg",criarEsteira]
 ];
 paletaConstrucao=[
-    ["Sala","parede.svg","Descrição salas","descSalas.svg",null],
+    ["Sala","parede.svg","Descrição salas","descSalas.svg",null,true],
     ["Porta","porta.svg","Descrição portas","descPortas.svg",null]
 ];
 paletaDecoracao=[
     ["Planta","planta.svg","Descrição planta","descPlantas.svg",null],
-    ["Mesa","mesa.svg","Descrição mesa","descMesas.svg",null]
+    ["Mesa","mesa.svg","Descrição mesa","descMesas.svg",null],
+    ["Bebedouro","bebedouro.svg","Descrição bebedouro","descBebedouros.svg",null]
 ];
 function exibirPaleta(argPaleta) {
     divPaleta.innerHTML="";
@@ -77,7 +78,10 @@ function abrirConstrutor(argItem) {
     detalhamento.appendChild(descricaoImagem);
     detalhamento.appendChild(descricaoConstrutor);
     construindo=true;
-    construcaoCursor.src="imagens/"+argItem[1];
+    if (argItem[5]==true) {
+    } else {
+        construcaoCursor.src="imagens/"+argItem[1];
+    }
 }
 
 //Classes
@@ -143,7 +147,7 @@ class Objeto {
             this.posY=this.posYInicial;
             this.objetoAcima=null;
             this.objetoAbaixo=null;
-            this.draw();
+            this.softDraw();
         }
     }
     softDraw() {
@@ -522,6 +526,31 @@ class Porta extends Objeto {
         this.imagem="porta.svg";
     }
 }
+class Planta extends Objeto {
+    constructor(argPosX,argPosY) {
+        super(argPosX,argPosY);
+        this.imagem="planta.svg";
+    }
+}
+class Mesa extends Objeto {
+    constructor(argPosX,argPosY) {
+        super(argPosX,argPosY);
+        this.imagem="mesa.svg";
+        this.superficie=true;
+    }
+}
+class Bebedouro extends Objeto {
+    constructor(argPosX,argPosY) {
+        super(argPosX,argPosY);
+        this.imagem="bebedouro.svg";
+    }
+}
+class Recepcionista extends Objeto {
+    constructor(argPosX,argPosY) {
+        super(argPosX,argPosY);
+        this.imagem="recepcionista.svg";
+    }
+}
 class Sala {
     constructor(argPosX,argPosY,argTamX=1,argTamY=1) {
         this.posX=argPosX;
@@ -587,18 +616,52 @@ function criarEsteira(argPosX,argPosY,argDirecao="_N") {
     novaEsteira.draw();
     return novaEsteira;
 }
+function criarPlanta(argPosX,argPosY) {
+    let novaPlanta=criarObjeto(Planta,argPosX,argPosY);
+    novaPlanta.draw();
+    return novaPlanta;
+}
+function criarMesa(argPosX,argPosY) {
+    let novaMesa=criarObjeto(Mesa,argPosX,argPosY);
+    novaMesa.draw();
+    return novaMesa;
+}
+function criarBebedouro(argPosX,argPosY) {
+    let novoBebedouro=criarObjeto(Bebedouro,argPosX,argPosY);
+    novoBebedouro.draw();
+    return novoBebedouro;
+}
+function criarRecepcionista(argPosX,argPosY) {
+    let novaRecepcionista=criarObjeto(Recepcionista,argPosX,argPosY);
+    novaRecepcionista.draw();
+    return novaRecepcionista;
+}
 
 //Criação de salas
-function criarSala(argPosX,argPosY,argTamX=1,argTamY=1) {
-    let novaSala=new Sala(argPosX-1,argPosY-1,argTamX+2,argTamY+2);
-    for (let i=argPosX-1; i<argPosX+argTamX; i++) {
-        criarParede(i,argPosY-1);
-        criarParede(i+1,argPosY+argTamY);
+function criarSala(argPosX,argPosY,argTamX=1,argTamY=1,argParedes=true) {
+    if (argParedes) {
+        let novaSala=criarChao(argPosX-1,argPosY-1,argTamX+2,argTamY+2);
+        for (let i=argPosX-1; i<argPosX+argTamX; i++) {
+            criarParede(i,argPosY-1);
+            criarParede(i+1,argPosY+argTamY);
+        }
+        for (let i=argPosY-1; i<argPosY+argTamY; i++) {
+            criarParede(argPosX-1,i+1);
+            criarParede(argPosX+argTamX,i);
+        }
+        return novaSala;
+    } else {
+        let novaSala=criarChao(argPosX,argPosY,argTamX+1,argTamY+1);
+        return novaSala;
     }
-    for (let i=argPosY-1; i<argPosY+argTamY; i++) {
-        criarParede(argPosX-1,i+1);
-        criarParede(argPosX+argTamX,i);
+}
+function criarChao(argPosX,argPosY,argTamX=1,argTamY=1,argTipo="piso") {
+    let novoChao=new Sala(argPosX,argPosY,argTamX,argTamY);
+    if (argTipo!="piso") {
+        novoChao.elementoPiso.classList.remove("piso");
+        novoChao.elementoPiso.classList.add(argTipo);
     }
+    return novoChao;
 }
 function criarParede(argPosX,argPosY) {
     let novaParede=criarObjeto(Parede,argPosX,argPosY);
@@ -857,24 +920,72 @@ function atualizarFrequenciaExecucao() {
         execucaoSimulacao=setInterval(update,duracaoUpdates);
     }
 }
+function desativarRecalculador() {
+    //Função para desativar ações pesadas de criação/destruição de objetos.
+    //Deve ser chamada para descarregar/carregar um grande número de objetos, como por exemplo carregar cenas inteiras.
+    //Pra evitar de fazer vários appendChild() enquanto ainda está carregando as coisas. Isso evita processamento desnecessário.
+    //Sim, essa função ainda não funciona pra nada
+}
+function ativarRecalculador() {
+    //Lembre-se de chamar isso quando terminar de fazer as ações pesadas, para que a gamelogic não quebre no meio.
+    //Sim, essa função TAMBÉM ainda não funciona pra nada
+}
+function fixarObjetos() {
+    //Objetos fixados são impossíveis de mover, editar ou apagar, apesar de ainda serem interagíveis.
+    //Sim, essa função ainda não funciona pra nada. Alguém se habilita?
+}
 
 //Iniciar
 desativarDetalhamento();
-criarSala(1,1,12,9);
-criarPorta(6,10);
-criarImpressora(1,6);
-criarDado(2,6,50);
-criarEsteira(3,5,"_N");
-criarEsteira(3,4,"_N");
-criarEsteira(3,3,"_L");
-criarEsteira(4,3,"_L");
-criarEsteira(5,3,"_L");
-criarEsteira(6,3,"_S");
-criarEsteira(6,4,"_S");
-criarEsteira(6,5,"_S");
-criarEsteira(6,6,"_O");
-criarEsteira(5,6,"_S");
-var tempFuncionario=criarFuncionario(1,1);
+desativarRecalculador();
+//Área externa
+criarChao(0,9,6,25,"grama");
+criarPlanta(2,9);
+criarPlanta(5,9);
+criarPlanta(2,11);
+criarPlanta(5,11);
+criarPlanta(2,13);
+criarPlanta(5,13);
+criarPlanta(2,15);
+criarPlanta(5,15);
+criarPlanta(2,17);
+criarPlanta(5,17);
+criarChao(3,9,2,9,"calcada");
+criarChao(0,10,3,1,"calcada");
+criarChao(0,18,6,12,"calcada");
+criarChao(0,19,5,10,"rua");
+//Salinha da recepcionista
+criarSala(1,1,5,7);
+criarPorta(3,8);
+criarPorta(4,8);
+criarMesa(3,1);
+criarMesa(3,2);
+criarMesa(3,3);
+criarMesa(3,4);
+criarMesa(4,4);
+criarRecepcionista(4,3);
+criarPlanta(1,1);
+criarBebedouro(2,1);
+//Salão gigante onde o jogo acontece
+criarSala(7,1,32,32);
+criarPorta(6,2);
+criarPorta(6,3);
+
+fixarObjetos(); //Fixa o que foi criado, para manter o cenário do jogo
+
+criarImpressora(8,6);
+criarDado(9,6,50);
+criarEsteira(10,5,"_N");
+criarEsteira(10,4,"_N");
+criarEsteira(10,3,"_L");
+criarEsteira(11,3,"_L");
+criarEsteira(12,3,"_L");
+criarEsteira(13,3,"_S");
+criarEsteira(13,4,"_S");
+criarEsteira(13,5,"_S");
+criarEsteira(13,6,"_O");
+criarEsteira(12,6,"_S");
+var tempFuncionario=criarFuncionario(8,1);
 tempFuncionario.acoes=[
     ["mover","_L"],
     ["mover","_S"],
@@ -887,7 +998,7 @@ tempFuncionario.acoes=[
     ["pegar","_SO"],
     ["pular",7]
 ];
-var tempFuncionario=criarFuncionario(10,2);
+var tempFuncionario=criarFuncionario(17,2);
 tempFuncionario.acoes=[
     ["mover","_S"],
     ["mover","_S"],
@@ -906,7 +1017,7 @@ tempFuncionario.acoes=[
     ["soltar","_L"],
     ["pular",5]
 ];
-var tempFuncionario=criarFuncionario(2,9);
+var tempFuncionario=criarFuncionario(9,9);
 tempFuncionario.acoes=[
     ["mover","_L"],
     ["mover","_L"],
@@ -924,6 +1035,7 @@ tempFuncionario.acoes=[
     ["mover","_O"],
     ["pular",4]
 ];
-criarTriturador(11,7);
+criarTriturador(18,7);
+ativarRecalculador();
 ping();
 exibirPaleta(paletaFuncionarios);

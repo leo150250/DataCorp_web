@@ -55,6 +55,18 @@ body {
     background: url("imagens/piso.svg") repeat;
     position: absolute;
 }
+#cena .grama {
+    background: url("imagens/grama.svg") repeat;
+    position: absolute;
+}
+#cena .calcada {
+    background: url("imagens/calcada.svg") repeat;
+    position: absolute;
+}
+#cena .rua {
+    background: url("imagens/rua.svg") repeat;
+    position: absolute;
+}
 #detalhamento {
     width: 300px;
     height: calc(100% - 84px);
