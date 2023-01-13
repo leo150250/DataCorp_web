@@ -10,6 +10,9 @@ const spanUpdates=document.getElementById("spanUpdates");
 const spanTempo=document.getElementById("spanTempo");
 const divPaleta=document.getElementById("divPaleta");
 
+const barraConstruir=document.getElementById("barraConstruir");
+const barraProgramar=document.getElementById("barraProgramar");
+
 //Variáveis globais
 var objetos=[];
 var objetoDetalhado=null;
@@ -42,6 +45,8 @@ paletaDecoracao=[
     ["Mesa","mesa.svg","Descrição mesa","descMesas.svg",null]
 ];
 function exibirPaleta(argPaleta) {
+    barraConstruir.style.display="flex";
+    barraProgramar.style.display="none";
     divPaleta.innerHTML="";
     argPaleta.forEach(botao => {
         let novoBotao=document.createElement("button");
@@ -612,6 +617,7 @@ function desativarDetalhamento() {
     cena.onclick=null;
     cena.style.width="100%";
 }
+
 function criarCardProgramacao(argAcao,argCounter) {
     let novoCard=document.createElement("div");
     novoCard.classList.add("card");
@@ -678,7 +684,7 @@ function atualizarProgramCounter(argContador) {
     atualizarSetaProgramCounter(argContador);
 }
 function atualizarSetaProgramCounter(argContador) {
-    setaDetalhamento.style.top=detalhamento.children[argContador].offsetTop+20-detalhamento.scrollTop;
+    setaDetalhamento.style.top=detalhamento.children[argContador].offsetTop-detalhamento.scrollTop;
     setaDetalhamento.style.left=detalhamento.offsetLeft-20;
 }
 cena.addEventListener("click",(e)=>{
