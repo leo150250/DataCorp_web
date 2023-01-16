@@ -44,6 +44,7 @@ paletaDecoracao=[
     ["Planta","planta.svg","Descrição planta","descPlantas.svg",null],
     ["Mesa","mesa.svg","Descrição mesa","descMesas.svg",null]
 ];
+paletaSelecionada=paletaFuncionarios;
 function exibirPaleta(argPaleta) {
     barraConstruir.style.display="flex";
     barraProgramar.style.display="none";
@@ -59,6 +60,7 @@ function exibirPaleta(argPaleta) {
         novoBotao.appendChild(imagemBotao);
         divPaleta.appendChild(novoBotao);
     });
+    paletaSelecionada=argPaleta;
 }
 function abrirConstrutor(argItem) {
     detalhamento.innerHTML="";
@@ -78,6 +80,21 @@ function abrirConstrutor(argItem) {
     detalhamento.appendChild(descricaoImagem);
     detalhamento.appendChild(descricaoConstrutor);
 }
+function exibirProgramacoes() {
+    barraConstruir.style.display="none";
+    barraProgramar.style.display="flex";
+    desativarEspacoCards();
+}
+paletaProgramacoes=[
+    ["mover","mover"],
+    ["pegar","pegar"],
+    ["soltar","pegar"],
+    ["pular","ordem"],
+]
+paletaProgramacoes.forEach(cardProgramacao => {
+    let novoCard=criarCardProgramacao(cardProgramacao,null,true);
+    barraProgramar.appendChild(novoCard);
+});
 
 //Classes
 class Objeto {
@@ -457,6 +474,27 @@ class Funcionario extends Objeto {
             this.suspenderExecucao=0;
         }
     }
+    inserirAcao(argAcao,argCounter) {
+        let novasAcoes=[];
+        let contador=0;
+        for (let i=0; i<this.acoes.length; i++) {
+            if (argCounter==i) {
+                novasAcoes.push(argAcao);
+            }
+            novasAcoes.push(this.acoes[i]);
+        }
+        this.acoes=novasAcoes;
+        this.gerarCards();
+    }
+    gerarCards() {
+        detalhamento.innerHTML="";
+        cardsEspacamentoProgramacao=[];
+        detalhamento.appendChild(criarEspacoCard());
+        this.acoes.forEach((acao,counter)=>{
+            detalhamento.appendChild(criarCardProgramacao(acao,counter));
+            detalhamento.appendChild(criarEspacoCard(counter+1));
+        });
+    }
     exibirBalao(argTexto) {
         this.balaoFala.style.opacity="1";
         this.balaoFala.innerHTML=argTexto;
@@ -582,6 +620,7 @@ function obterObjetosPegaveis(argPosX,argPosY) {
 }
 
 //GUI
+var cardsEspacamentoProgramacao=[];
 function detalharObjeto(argObjeto) {
     detalhamento.innerHTML="";
     ativarDetalhamento();
@@ -590,13 +629,12 @@ function detalharObjeto(argObjeto) {
     console.log(objetoDetalhado);
     setaDetalhamento.style.display="block";
     if (objetoDetalhado.tipoClicavel=="programa") {
-        objetoDetalhado.acoes.forEach((acao,counter)=>{
-            detalhamento.appendChild(criarCardProgramacao(acao,counter));
-        });
+        objetoDetalhado.gerarCards();
         atualizarProgramCounter(objetoDetalhado.acaoCounter);
         detalhamento.onscroll=()=>{
             atualizarSetaProgramCounter(objetoDetalhado.acaoCounter);
         }
+        exibirProgramacoes();
     }
 }
 function ativarDetalhamento() {
@@ -611,6 +649,9 @@ function ativarDetalhamento() {
 function desativarDetalhamento() {
     if (objetoDetalhado!=null) {
         objetoDetalhado.elemento.classList.remove("selecionado");
+        if (objetoDetalhado.tipoClicavel=="programa") {
+            exibirPaleta(paletaSelecionada);
+        }
     }
     detalhamento.style.display="none";
     setaDetalhamento.style.display="none";
@@ -618,43 +659,103 @@ function desativarDetalhamento() {
     cena.style.width="100%";
 }
 
-function criarCardProgramacao(argAcao,argCounter) {
+function criarEspacoCard(argCounter=0) {
+    let novoEspaco=document.createElement("div");
+    novoEspaco.classList.add("espacoCard");
+    novoEspaco.setAttribute("counter",argCounter);
+    novoEspaco.ondragenter=(e)=>{
+        novoEspaco.style.opacity="1";
+        novoEspaco.style.height="70px";
+    }
+    novoEspaco.ondragleave=(e)=>{
+        novoEspaco.style.opacity=null;
+        novoEspaco.style.height=null;
+    }
+    novoEspaco.ondragover=(e)=>{
+        e.preventDefault();
+    }
+    novoEspaco.ondrop=(e)=>{
+        console.log("Soltei!");
+        objetoDetalhado.inserirAcao(programacaoAcaoMovendo,argCounter);
+    }
+    cardsEspacamentoProgramacao.push(novoEspaco);
+    return novoEspaco;
+}
+function ativarEspacoCards() {
+    cardsEspacamentoProgramacao.forEach(card => {
+        card.style.pointerEvents=null;
+        card.style.zIndex=1;
+    });
+    console.log("Espaços ativados");
+}
+function desativarEspacoCards() {
+    cardsEspacamentoProgramacao.forEach(card => {
+        card.style.pointerEvents="none";
+        card.style.zIndex=-1;
+    });
+    console.log("Espaços desativados");
+}
+var programacaoAcaoMovendo=null;
+function criarCardProgramacao(argAcao,argCounter,argFerramenta=null) {
     let novoCard=document.createElement("div");
     novoCard.classList.add("card");
-    let pCounter=document.createElement("p");
-    pCounter.classList.add("counter");
-    pCounter.innerHTML=argCounter;
-    novoCard.appendChild(pCounter);
+    if (argFerramenta===null) {
+        let pCounter=document.createElement("p");
+        pCounter.classList.add("counter");
+        pCounter.innerHTML=argCounter;
+        novoCard.appendChild(pCounter);
+    }
+    novoCard.draggable=true;
+    novoCard.ondragstart=(e)=>{
+        ativarEspacoCards();
+        if (argFerramenta===null) {
+            programacaoAcaoMovendo=[argAcao[0],""];
+        } else {
+            programacaoAcaoMovendo=argAcao;
+        }
+    }
+    novoCard.ondragend=(e)=>{
+        desativarEspacoCards();
+    }
     switch (argAcao[0]) {
         case "mover": {
             let pComando=document.createElement("p");
             pComando.innerHTML="Mover";
-            let divDirecao=criarInputDirecao(argAcao[1]);
             novoCard.appendChild(pComando);
-            novoCard.appendChild(divDirecao);
             novoCard.classList.add("mover");
+            if (argFerramenta===null) {
+                let divDirecao=criarInputDirecao(argAcao[1]);
+                novoCard.appendChild(divDirecao);
+            }
         } break;
         case "pegar": {
             let pComando=document.createElement("p");
             pComando.innerHTML="Pegar de";
-            let divDirecao=criarInputDirecao(argAcao[1]);
             novoCard.appendChild(pComando);
-            novoCard.appendChild(divDirecao);
             novoCard.classList.add("pegar");
+            if (argFerramenta===null) {
+                let divDirecao=criarInputDirecao(argAcao[1]);
+                novoCard.appendChild(divDirecao);
+            }
         } break;
         case "soltar": {
             let pComando=document.createElement("p");
             pComando.innerHTML="Soltar em";
-            let divDirecao=criarInputDirecao(argAcao[1]);
             novoCard.appendChild(pComando);
-            novoCard.appendChild(divDirecao);
             novoCard.classList.add("pegar");
+            if (argFerramenta===null) {
+                let divDirecao=criarInputDirecao(argAcao[1]);
+                novoCard.appendChild(divDirecao);
+            }
         } break;
         case "pular": {
             let pComando=document.createElement("p");
-            pComando.innerHTML="Pular para "+argAcao[1];
+            pComando.innerHTML="Pular para ";
             novoCard.appendChild(pComando);
             novoCard.classList.add("ordem");
+            if (argFerramenta===null) {
+                pComando.innerHTML+=argAcao[1];
+            }
         } break;
     }
     return novoCard;
@@ -680,11 +781,13 @@ function criarInputDirecao(argDirecaoSelecionada=null) {
     return novoInputDirecao;
 }
 function atualizarProgramCounter(argContador) {
-    detalhamento.children[argContador].scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
+    let numeroCounter=1+(argContador*2);
+    detalhamento.children[numeroCounter].scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
     atualizarSetaProgramCounter(argContador);
 }
 function atualizarSetaProgramCounter(argContador) {
-    setaDetalhamento.style.top=detalhamento.children[argContador].offsetTop-detalhamento.scrollTop;
+    let numeroCounter=1+(argContador*2);
+    setaDetalhamento.style.top=detalhamento.children[numeroCounter].offsetTop-detalhamento.scrollTop;
     setaDetalhamento.style.left=detalhamento.offsetLeft-20;
 }
 cena.addEventListener("click",(e)=>{

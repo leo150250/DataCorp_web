@@ -76,6 +76,7 @@ body {
     align-items: center;
     width: fit-content;
     color: #222;
+    cursor: grab;
 }
 .card.mover {
     background-color: #80dd80;
@@ -101,6 +102,15 @@ body {
     margin: 0em;
     align-self: stretch;
     border-radius: 5px;
+}
+.espacoCard {
+    opacity: 0;
+    height: 40px;
+    background-color: #FFF2;
+    margin: -24px 0px;
+    transition: 0.25s;
+    position: relative;
+    z-index: 1;
 }
 .inputDirecao {
     background-color: #0001;
@@ -175,11 +185,12 @@ body {
 .flex.coluna {
     flex-direction: column;
 }
-#divPaleta {
+#divPaleta, #divPaletaProgramar {
     overflow-x: scroll;
     flex-grow: 2;
     overflow-y: hidden;
 }
-#barraConstruir {
-    overflow: auto;
+#barraConstruir, #barraProgramar {
+    overflow-x: auto;
+    overflow-y: hidden;
 }
