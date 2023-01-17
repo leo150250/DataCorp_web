@@ -480,22 +480,26 @@ class Funcionario extends Objeto {
         return novaAcao;
     }
     inserirAcao(argAcao,argCounter) {
-        let updateAcoes=[];
-        let contador=0;
-        for (let i=0; i<this.acoes.length; i++) {
-            if (argCounter==i) {
-                let acaoInserir=new AcaoProgramada(argAcao[0],contador,argAcao[1]);
+        if (argCounter==this.acoes.length) {
+            this.adicionarAcao(argAcao);
+        } else {
+            let updateAcoes=[];
+            let contador=0;
+            for (let i=0; i<this.acoes.length; i++) {
+                if (argCounter==i) {
+                    let acaoInserir=new AcaoProgramada(argAcao[0],contador,argAcao[1]);
+                    updateAcoes.push(acaoInserir);
+                    contador++;
+                }
+                let acaoInserir=this.acoes[i];
+                if (contador!=i) {
+                    acaoInserir.atualizarCounter(contador);
+                }
                 updateAcoes.push(acaoInserir);
                 contador++;
             }
-            let acaoInserir=this.acoes[i];
-            if (contador!=i) {
-                acaoInserir.atualizarCounter(contador);
-            }
-            updateAcoes.push(acaoInserir);
-            contador++;
+            this.acoes=updateAcoes;
         }
-        this.acoes=updateAcoes;
         this.gerarCards();
     }
     moverAcao(argCounterOrigem,argCounterDestino) {
@@ -508,7 +512,7 @@ class Funcionario extends Objeto {
             this.acoes[argCounterDestino-1]=acaoMover;
             this.acoes[argCounterDestino-1].atualizarCounter(argCounterDestino-1);
         } else if (argCounterOrigem>argCounterDestino) {
-            console.log("MOVE PRA CIMA");
+            //console.log("MOVE PRA CIMA");
             for (let i=argCounterOrigem; i>argCounterDestino; i--) {
                 this.acoes[i]=this.acoes[i-1];
                 this.acoes[i].atualizarCounter(i);
@@ -526,13 +530,32 @@ class Funcionario extends Objeto {
         this.acoes[argCounterOrigem]=acaoAux;
         this.gerarCards();
     }
+    deletarAcao(argCounter) {
+        console.log("Deleta o "+argCounter);
+        let updateAcoes=[];
+        let contador=0;
+        for (let i=0; i<this.acoes.length; i++) {
+            if (argCounter!=i) {
+                let acaoInserir=this.acoes[i];
+                if (contador!=i) {
+                    acaoInserir.atualizarCounter(contador);
+                }
+                updateAcoes.push(acaoInserir);
+                contador++;
+            }
+        }
+        this.acoes=updateAcoes;
+        this.gerarCards();
+    }
     gerarCards() {
         detalhamento.innerHTML="";
         cardsEspacamentoProgramacao=[];
         detalhamento.appendChild(criarEspacoCard());
+        let ultimoEspacoCard=null;
         this.acoes.forEach((acao,counter)=>{
             detalhamento.appendChild(acao.card);
-            detalhamento.appendChild(criarEspacoCard(counter+1));
+            ultimoEspacoCard=criarEspacoCard(counter+1);
+            detalhamento.appendChild(ultimoEspacoCard);
         });
     }
     exibirBalao(argTexto) {
@@ -685,7 +708,7 @@ function detalharObjeto(argObjeto) {
     ativarDetalhamento();
     objetoDetalhado=argObjeto;
     objetoDetalhado.elemento.classList.add("selecionado");
-    console.log(objetoDetalhado);
+    //console.log(objetoDetalhado);
     setaDetalhamento.style.display="block";
     if (objetoDetalhado.tipoClicavel=="programa") {
         objetoDetalhado.gerarCards();
@@ -701,7 +724,7 @@ function ativarDetalhamento() {
         objetoDetalhado.elemento.classList.remove("selecionado");
     }
     detalhamento.onscroll=null;
-    detalhamento.style.display="block";
+    detalhamento.style.display="flex";
     cena.style.width="calc(100% - "+detalhamento.offsetWidth+"px)";
     setaDetalhamento.style.display="none";
 }
@@ -751,14 +774,14 @@ function ativarEspacoCards() {
         card.style.pointerEvents=null;
         card.style.zIndex=1;
     });
-    console.log("Espaços ativados");
+    //console.log("Espaços ativados");
 }
 function desativarEspacoCards() {
     cardsEspacamentoProgramacao.forEach(card => {
         card.style.pointerEvents="none";
         card.style.zIndex=-1;
     });
-    console.log("Espaços desativados");
+    //console.log("Espaços desativados");
 }
 var programacaoAcaoMovendo=null;
 function criarCardProgramacao(argAcao,argCounter,argFerramenta=null,argAcaoObjeto=null) {
@@ -775,15 +798,24 @@ function criarCardProgramacao(argAcao,argCounter,argFerramenta=null,argAcaoObjet
     }
     novoCard.draggable=true;
     novoCard.ondragstart=(e)=>{
+        novoCard.style.opacity="0.5";
         ativarEspacoCards();
         if (argFerramenta===null) {
             programacaoAcaoMovendo=argAcaoObjeto;
+            cena.ondrop=(e)=>{
+                objetoDetalhado.deletarAcao(argAcaoObjeto.counter);
+                cena.ondrop=null;
+            }
         } else {
             programacaoAcaoMovendo=[argAcao[0],""];
         }
     }
     novoCard.ondragend=(e)=>{
+        novoCard.style.opacity="1";
         desativarEspacoCards();
+        cena.ondrop=null;
+        //console.log(e);
+        programacaoAcaoMovendo=null;
     }
     switch (argAcao[0]) {
         case "mover": {
@@ -853,10 +885,10 @@ function criarInputDirecao(argDirecaoSelecionada=null) {
     return novoInputDirecao;
 }
 function atualizarProgramCounter(argContador) {
-    //let numeroCounter=1+(argContador*2);
-    //detalhamento.children[numeroCounter].scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
-    objetoDetalhado.acoes[argContador].card.scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
-    atualizarSetaProgramCounter(argContador);
+    if (objetoDetalhado.acoes[argContador]!=null) {
+        objetoDetalhado.acoes[argContador].card.scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
+        atualizarSetaProgramCounter(argContador);
+    }
 }
 function atualizarSetaProgramCounter(argContador) {
     //let numeroCounter=1+(argContador*2);
@@ -868,6 +900,9 @@ cena.addEventListener("click",(e)=>{
         desativarDetalhamento();
     }
 });
+cena.ondragover=(e)=>{
+    e.preventDefault();
+}
 
 //Game logic
 function ping() {
@@ -954,7 +989,7 @@ criarEsteira(6,4,"_S");
 criarEsteira(6,5,"_S");
 criarEsteira(6,6,"_O");
 criarEsteira(5,6,"_S");
-var tempFuncionario=criarFuncionario(1,1,[
+criarFuncionario(1,1,[
     ["mover","_L"],
     ["mover","_S"],
     ["mover","_SO"],
@@ -966,7 +1001,7 @@ var tempFuncionario=criarFuncionario(1,1,[
     ["pegar","_SO"],
     ["pular",7]
 ]);
-var tempFuncionario=criarFuncionario(10,2,[
+criarFuncionario(10,2,[
     ["mover","_S"],
     ["mover","_S"],
     ["mover","_S"],
@@ -984,7 +1019,7 @@ var tempFuncionario=criarFuncionario(10,2,[
     ["soltar","_L"],
     ["pular",5]
 ]);
-var tempFuncionario=criarFuncionario(2,9,[
+criarFuncionario(2,9,[
     ["mover","_L"],
     ["mover","_L"],
     ["mover","_L"],
@@ -1001,6 +1036,7 @@ var tempFuncionario=criarFuncionario(2,9,[
     ["mover","_O"],
     ["pular",4]
 ]);
+criarFuncionario(6,11);
 criarTriturador(11,7);
 ping();
 exibirPaleta(paletaFuncionarios);

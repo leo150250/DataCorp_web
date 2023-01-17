@@ -64,6 +64,7 @@ body {
     padding: 10px;
     overflow-y: auto;
     overflow-x: hidden;
+    flex-direction: column;
     zoom: 1vw;
 }
 .card {
@@ -78,6 +79,7 @@ body {
     width: fit-content;
     color: #222;
     cursor: grab;
+    
 }
 .card.mover {
     background-color: #80dd80;
@@ -112,6 +114,11 @@ body {
     transition: 0.25s;
     position: relative;
     z-index: 1;
+    flex-shrink: 0;
+}
+.espacoCard:last-child {
+    flex-grow: 2;
+    margin-bottom: -10px;
 }
 .inputDirecao {
     background-color: #0001;
