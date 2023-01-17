@@ -4,6 +4,7 @@ body {
     margin: 0;
     overflow: hidden;
     font-family: monospace;
+    font-weight: bold;
 }
 #cena {
     width: calc(100% - 320px);

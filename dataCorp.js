@@ -93,7 +93,7 @@ paletaProgramacoes=[
 ]
 paletaProgramacoes.forEach(cardProgramacao => {
     let novoCard=criarCardProgramacao(cardProgramacao,null,true);
-    barraProgramar.appendChild(novoCard);
+    barraProgramar.appendChild(novoCard[0]);
 });
 
 //Classes
@@ -355,11 +355,11 @@ class Funcionario extends Objeto {
         if (this.executando) {
             if (this.acaoCounter<this.acoes.length) {
                 let acaoAgora=this.acoes[this.acaoCounter];
-                switch (acaoAgora[0]) {
+                switch (acaoAgora.tipo) {
                     case "mover": {
                         let alvoX=0;
                         let alvoY=0;
-                        switch (acaoAgora[1]) {
+                        switch (acaoAgora.argumento) {
                             case "_N": alvoY=-1; break;
                             case "_S": alvoY=1; break;
                             case "_L": alvoX=1; break;
@@ -379,7 +379,7 @@ class Funcionario extends Objeto {
                         if (this.objetoAcima==null) {
                             let alvoX=0;
                             let alvoY=0;
-                            switch (acaoAgora[1]) {
+                            switch (acaoAgora.argumento) {
                                 case "_N": alvoY=-1; break;
                                 case "_S": alvoY=1; break;
                                 case "_L": alvoX=1; break;
@@ -417,7 +417,7 @@ class Funcionario extends Objeto {
                         if (this.objetoAcima!=null) {
                             let alvoX=0;
                             let alvoY=0;
-                            switch (acaoAgora[1]) {
+                            switch (acaoAgora.argumento) {
                                 case "_N": alvoY=-1; break;
                                 case "_S": alvoY=1; break;
                                 case "_L": alvoX=1; break;
@@ -439,7 +439,7 @@ class Funcionario extends Objeto {
                         }
                     } break;
                     case "pular": {
-                        this.acaoCounter=acaoAgora[1]-1;
+                        this.acaoCounter=acaoAgora.argumento-1;
                     } break;
                 }
                 this.acaoCounter++;
@@ -474,16 +474,56 @@ class Funcionario extends Objeto {
             this.suspenderExecucao=0;
         }
     }
+    adicionarAcao(argAcao) {
+        let novaAcao=new AcaoProgramada(argAcao[0],this.acoes.length,argAcao[1]);
+        this.acoes.push(novaAcao);
+        return novaAcao;
+    }
     inserirAcao(argAcao,argCounter) {
-        let novasAcoes=[];
+        let updateAcoes=[];
         let contador=0;
         for (let i=0; i<this.acoes.length; i++) {
             if (argCounter==i) {
-                novasAcoes.push(argAcao);
+                let acaoInserir=new AcaoProgramada(argAcao[0],contador,argAcao[1]);
+                updateAcoes.push(acaoInserir);
+                contador++;
             }
-            novasAcoes.push(this.acoes[i]);
+            let acaoInserir=this.acoes[i];
+            if (contador!=i) {
+                acaoInserir.atualizarCounter(contador);
+            }
+            updateAcoes.push(acaoInserir);
+            contador++;
         }
-        this.acoes=novasAcoes;
+        this.acoes=updateAcoes;
+        this.gerarCards();
+    }
+    moverAcao(argCounterOrigem,argCounterDestino) {
+        let acaoMover=this.acoes[argCounterOrigem];
+        if (argCounterOrigem<argCounterDestino) {
+            for (let i=argCounterOrigem; i<argCounterDestino-1; i++) {
+                this.acoes[i]=this.acoes[i+1];
+                this.acoes[i].atualizarCounter(i);
+            }
+            this.acoes[argCounterDestino-1]=acaoMover;
+            this.acoes[argCounterDestino-1].atualizarCounter(argCounterDestino-1);
+        } else if (argCounterOrigem>argCounterDestino) {
+            console.log("MOVE PRA CIMA");
+            for (let i=argCounterOrigem; i>argCounterDestino; i--) {
+                this.acoes[i]=this.acoes[i-1];
+                this.acoes[i].atualizarCounter(i);
+            }
+            this.acoes[argCounterDestino]=acaoMover;
+            this.acoes[argCounterDestino].atualizarCounter(argCounterDestino);
+        }
+        this.gerarCards();
+    }
+    swapAcao(argCounterOrigem,argCounterDestino) {
+        this.acoes[argCounterDestino].atualizarCounter(argCounterOrigem);
+        this.acoes[argCounterOrigem].atualizarCounter(argCounterDestino);
+        let acaoAux=this.acoes[argCounterDestino];
+        this.acoes[argCounterDestino]=this.acoes[argCounterOrigem];
+        this.acoes[argCounterOrigem]=acaoAux;
         this.gerarCards();
     }
     gerarCards() {
@@ -491,7 +531,7 @@ class Funcionario extends Objeto {
         cardsEspacamentoProgramacao=[];
         detalhamento.appendChild(criarEspacoCard());
         this.acoes.forEach((acao,counter)=>{
-            detalhamento.appendChild(criarCardProgramacao(acao,counter));
+            detalhamento.appendChild(acao.card);
             detalhamento.appendChild(criarEspacoCard(counter+1));
         });
     }
@@ -542,6 +582,22 @@ class Esteira extends Objeto {
         super.draw();
     }
 }
+class AcaoProgramada {
+    constructor(argTipo,argCounter,argArgumento) {
+        this.tipo=argTipo;
+        this.counter=argCounter;
+        this.argumento=argArgumento;
+        let novoCard=criarCardProgramacao([this.tipo,this.argumento],this.counter,null,this);
+        this.card=novoCard[0];
+        this.cardCounter=novoCard[1];
+        this.cardInput=novoCard[2];
+    }
+    atualizarCounter(argNovoCounter) {
+        this.counter=argNovoCounter;
+        this.cardCounter.innerHTML=this.counter;
+        console.log("Atualizei para "+argNovoCounter);
+    }
+}
 
 //Criação de objetos
 function criarObjeto(argObjeto,argPosX,argPosY) {
@@ -549,8 +605,11 @@ function criarObjeto(argObjeto,argPosX,argPosY) {
     objetos.push(novoObjeto);
     return novoObjeto;
 }
-function criarFuncionario(argPosX,argPosY) {
+function criarFuncionario(argPosX,argPosY,argAcoes=[]) {
     let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    argAcoes.forEach((acao)=>{
+        novoFuncionario.adicionarAcao(acao);
+    });
     novoFuncionario.draw();
     return novoFuncionario;
 }
@@ -676,7 +735,13 @@ function criarEspacoCard(argCounter=0) {
     }
     novoEspaco.ondrop=(e)=>{
         console.log("Soltei!");
-        objetoDetalhado.inserirAcao(programacaoAcaoMovendo,argCounter);
+        if (programacaoAcaoMovendo.constructor===Array) {
+            objetoDetalhado.inserirAcao(programacaoAcaoMovendo,argCounter);
+        } else {
+            objetoDetalhado.moverAcao(programacaoAcaoMovendo.counter,argCounter);
+        }
+        novoEspaco.style.opacity=null;
+        novoEspaco.style.height=null;
     }
     cardsEspacamentoProgramacao.push(novoEspaco);
     return novoEspaco;
@@ -696,22 +761,25 @@ function desativarEspacoCards() {
     console.log("Espaços desativados");
 }
 var programacaoAcaoMovendo=null;
-function criarCardProgramacao(argAcao,argCounter,argFerramenta=null) {
+function criarCardProgramacao(argAcao,argCounter,argFerramenta=null,argAcaoObjeto=null) {
+    let retorno=[];
     let novoCard=document.createElement("div");
+    retorno[0]=novoCard;
     novoCard.classList.add("card");
     if (argFerramenta===null) {
         let pCounter=document.createElement("p");
         pCounter.classList.add("counter");
         pCounter.innerHTML=argCounter;
+        retorno[1]=pCounter;
         novoCard.appendChild(pCounter);
     }
     novoCard.draggable=true;
     novoCard.ondragstart=(e)=>{
         ativarEspacoCards();
         if (argFerramenta===null) {
-            programacaoAcaoMovendo=[argAcao[0],""];
+            programacaoAcaoMovendo=argAcaoObjeto;
         } else {
-            programacaoAcaoMovendo=argAcao;
+            programacaoAcaoMovendo=[argAcao[0],""];
         }
     }
     novoCard.ondragend=(e)=>{
@@ -726,6 +794,7 @@ function criarCardProgramacao(argAcao,argCounter,argFerramenta=null) {
             if (argFerramenta===null) {
                 let divDirecao=criarInputDirecao(argAcao[1]);
                 novoCard.appendChild(divDirecao);
+                retorno[2]=divDirecao;
             }
         } break;
         case "pegar": {
@@ -736,6 +805,7 @@ function criarCardProgramacao(argAcao,argCounter,argFerramenta=null) {
             if (argFerramenta===null) {
                 let divDirecao=criarInputDirecao(argAcao[1]);
                 novoCard.appendChild(divDirecao);
+                retorno[2]=divDirecao;
             }
         } break;
         case "soltar": {
@@ -746,11 +816,13 @@ function criarCardProgramacao(argAcao,argCounter,argFerramenta=null) {
             if (argFerramenta===null) {
                 let divDirecao=criarInputDirecao(argAcao[1]);
                 novoCard.appendChild(divDirecao);
+                retorno[2]=divDirecao;
             }
         } break;
         case "pular": {
             let pComando=document.createElement("p");
             pComando.innerHTML="Pular para ";
+            retorno[2]=pComando;
             novoCard.appendChild(pComando);
             novoCard.classList.add("ordem");
             if (argFerramenta===null) {
@@ -758,7 +830,7 @@ function criarCardProgramacao(argAcao,argCounter,argFerramenta=null) {
             }
         } break;
     }
-    return novoCard;
+    return retorno;
 }
 function criarInputDirecao(argDirecaoSelecionada=null) {
     let novoInputDirecao=document.createElement("div");
@@ -781,13 +853,14 @@ function criarInputDirecao(argDirecaoSelecionada=null) {
     return novoInputDirecao;
 }
 function atualizarProgramCounter(argContador) {
-    let numeroCounter=1+(argContador*2);
-    detalhamento.children[numeroCounter].scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
+    //let numeroCounter=1+(argContador*2);
+    //detalhamento.children[numeroCounter].scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
+    objetoDetalhado.acoes[argContador].card.scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
     atualizarSetaProgramCounter(argContador);
 }
 function atualizarSetaProgramCounter(argContador) {
-    let numeroCounter=1+(argContador*2);
-    setaDetalhamento.style.top=detalhamento.children[numeroCounter].offsetTop-detalhamento.scrollTop;
+    //let numeroCounter=1+(argContador*2);
+    setaDetalhamento.style.top=objetoDetalhado.acoes[argContador].card.offsetTop-detalhamento.scrollTop;
     setaDetalhamento.style.left=detalhamento.offsetLeft-20;
 }
 cena.addEventListener("click",(e)=>{
@@ -881,8 +954,7 @@ criarEsteira(6,4,"_S");
 criarEsteira(6,5,"_S");
 criarEsteira(6,6,"_O");
 criarEsteira(5,6,"_S");
-var tempFuncionario=criarFuncionario(1,1);
-tempFuncionario.acoes=[
+var tempFuncionario=criarFuncionario(1,1,[
     ["mover","_L"],
     ["mover","_S"],
     ["mover","_SO"],
@@ -893,9 +965,8 @@ tempFuncionario.acoes=[
     ["soltar","_L"],
     ["pegar","_SO"],
     ["pular",7]
-];
-var tempFuncionario=criarFuncionario(10,2);
-tempFuncionario.acoes=[
+]);
+var tempFuncionario=criarFuncionario(10,2,[
     ["mover","_S"],
     ["mover","_S"],
     ["mover","_S"],
@@ -912,9 +983,8 @@ tempFuncionario.acoes=[
     ["mover","_L"],
     ["soltar","_L"],
     ["pular",5]
-];
-var tempFuncionario=criarFuncionario(2,9);
-tempFuncionario.acoes=[
+]);
+var tempFuncionario=criarFuncionario(2,9,[
     ["mover","_L"],
     ["mover","_L"],
     ["mover","_L"],
@@ -930,7 +1000,7 @@ tempFuncionario.acoes=[
     ["mover","_O"],
     ["mover","_O"],
     ["pular",4]
-];
+]);
 criarTriturador(11,7);
 ping();
 exibirPaleta(paletaFuncionarios);
