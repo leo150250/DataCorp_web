@@ -6,6 +6,11 @@ body {
     font-family: monospace;
     font-weight: bold;
 }
+input {
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 1em;
+}
 #cena {
     width: calc(100% - 320px);
     height: calc(100% - 64px);
@@ -33,7 +38,7 @@ body {
     text-align: center;
     border-radius: 0.5em;
     font-size: 0.5em;
-    transition: 0.5s;
+    transition: opacity 0.5s;
     border: 2px solid #555;
     z-index: 5;
     box-shadow: 2px 5px 7px #0004;
@@ -96,15 +101,19 @@ body {
     vertical-align: middle;
 }
 .card .counter {
-    font-size: 0.5em;
+    font-size: 1em;
     background-color: #0001;
     width: 2em;
     text-align: center;
     vertical-align: middle;
-    padding: 2em 0em;
+    padding: 1em 0em;
     margin: 0em;
     align-self: stretch;
     border-radius: 5px;
+}
+.card .input {
+    margin: 5px;
+    padding: 5px;
 }
 .espacoCard {
     opacity: 0;
@@ -120,25 +129,45 @@ body {
     flex-grow: 2;
     margin-bottom: -10px;
 }
-.inputDirecao {
-    background-color: #0001;
-    display: inline-grid;
-    vertical-align: middle;
-    grid-template-columns: 11px 11px 11px;
-    grid-template-rows: 11px 11px 11px;
-    margin: 5px;
-}
-.inputDirecao div {
-    background-color: #0002;
-    margin: 1px;
-}
-.inputDirecao div.selecionado {
-    background-color: #FFF;
-}
 #setaDetalhamento {
     position: absolute;
     z-index: 101;
     transition: 0.1s;
+}
+.input {
+    background-color: #0002;
+    border-radius: 5px;
+}
+.input:hover {
+    background-color: #FFF2;
+    cursor: pointer;
+}
+#inputDetalhamento {
+    position: absolute;
+    z-index: 101;
+    border-radius: 5px;
+    padding: 5px;
+}
+.inputDirecao {
+    background-color: #0001;
+    display: inline-grid;
+    vertical-align: middle;
+    grid-template-columns: 44px 44px 44px;
+    grid-template-rows: 44px 44px 44px;
+}
+.inputDirecao * {
+    background-color: #0002;
+    margin: 1px;
+    padding: 5px;
+}
+.inputDirecao *.selecionado {
+    background-color: #FFF;
+}
+#inputDetalhamento input[type="text"], #inputDetalhamento input[type="number"] {
+    border: none;
+    padding: 5px;
+    font-size: 2em;
+    width: 128px;
 }
 #detalhamento h1 {
     background-color: #222;
