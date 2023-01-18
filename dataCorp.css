@@ -4,6 +4,12 @@ body {
     margin: 0;
     overflow: hidden;
     font-family: monospace;
+    font-weight: bold;
+}
+input {
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 1em;
 }
 #cena {
     width: calc(100% - 320px);
@@ -32,7 +38,7 @@ body {
     text-align: center;
     border-radius: 0.5em;
     font-size: 0.5em;
-    transition: 0.5s;
+    transition: opacity 0.5s;
     border: 2px solid #555;
     z-index: 5;
     box-shadow: 2px 5px 7px #0004;
@@ -63,6 +69,7 @@ body {
     padding: 10px;
     overflow-y: auto;
     overflow-x: hidden;
+    flex-direction: column;
     zoom: 1vw;
 }
 .card {
@@ -76,6 +83,8 @@ body {
     align-items: center;
     width: fit-content;
     color: #222;
+    cursor: grab;
+    
 }
 .card.mover {
     background-color: #80dd80;
@@ -92,35 +101,73 @@ body {
     vertical-align: middle;
 }
 .card .counter {
-    font-size: 0.5em;
+    font-size: 1em;
     background-color: #0001;
     width: 2em;
     text-align: center;
     vertical-align: middle;
-    padding: 2em 0em;
+    padding: 1em 0em;
     margin: 0em;
     align-self: stretch;
     border-radius: 5px;
 }
-.inputDirecao {
-    background-color: #0001;
-    display: inline-grid;
-    vertical-align: middle;
-    grid-template-columns: 11px 11px 11px;
-    grid-template-rows: 11px 11px 11px;
+.card .input {
     margin: 5px;
+    padding: 5px;
 }
-.inputDirecao div {
-    background-color: #0002;
-    margin: 1px;
+.espacoCard {
+    opacity: 0;
+    height: 40px;
+    background-color: #FFF2;
+    margin: -24px 0px;
+    transition: 0.25s;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
 }
-.inputDirecao div.selecionado {
-    background-color: #FFF;
+.espacoCard:last-child {
+    flex-grow: 2;
+    margin-bottom: -10px;
 }
 #setaDetalhamento {
     position: absolute;
     z-index: 101;
     transition: 0.1s;
+}
+.input {
+    background-color: #0002;
+    border-radius: 5px;
+}
+.input:hover {
+    background-color: #FFF2;
+    cursor: pointer;
+}
+#inputDetalhamento {
+    position: absolute;
+    z-index: 101;
+    border-radius: 5px;
+    padding: 5px;
+}
+.inputDirecao {
+    background-color: #0001;
+    display: inline-grid;
+    vertical-align: middle;
+    grid-template-columns: 44px 44px 44px;
+    grid-template-rows: 44px 44px 44px;
+}
+.inputDirecao * {
+    background-color: #0002;
+    margin: 1px;
+    padding: 5px;
+}
+.inputDirecao *.selecionado {
+    background-color: #FFF;
+}
+#inputDetalhamento input[type="text"], #inputDetalhamento input[type="number"] {
+    border: none;
+    padding: 5px;
+    font-size: 2em;
+    width: 128px;
 }
 #detalhamento h1 {
     background-color: #222;
@@ -175,8 +222,12 @@ body {
 .flex.coluna {
     flex-direction: column;
 }
-#divPaleta {
+#divPaleta, #divPaletaProgramar {
     overflow-x: scroll;
     flex-grow: 2;
+    overflow-y: hidden;
+}
+#barraConstruir, #barraProgramar {
+    overflow-x: auto;
     overflow-y: hidden;
 }
