@@ -86,7 +86,6 @@ input {
     overflow-y: auto;
     overflow-x: hidden;
     flex-direction: column;
-    zoom: 1vw;
 }
 .card {
     background-color: #FFF;
@@ -97,6 +96,7 @@ input {
     box-shadow: 2px 2px 3px #0004;
     display: flex;
     align-items: center;
+    width: -moz-fit-content;
     width: fit-content;
     color: #222;
     cursor: grab;
@@ -215,6 +215,7 @@ input {
     top: 0px;
     cursor: pointer;
     border: none;
+    -webkit-user-select: none;
     user-select: none;
     outline: none;
 }
@@ -238,6 +239,9 @@ input {
 }
 .flex.coluna {
     flex-direction: column;
+}
+.flex span {
+    text-align: center;
 }
 #divPaleta, #divPaletaProgramar {
     overflow-x: scroll;

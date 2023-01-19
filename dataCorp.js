@@ -1366,7 +1366,7 @@ criarFuncionario(8,1,[
     ["pegar","_SO"],
     ["pular",7]
 ]);
-var tempFuncionario=criarFuncionario(10,2,[
+criarFuncionario(17,2,[
     ["mover","_S"],
     ["mover","_S"],
     ["mover","_S"],
@@ -1401,6 +1401,7 @@ criarFuncionario(9,9,[
     ["mover","_O"],
     ["pular",4]
 ]);
-criarTriturador(11,7);
+criarTriturador(18,7);
+criarFuncionario(11,11);
 ping();
 exibirPaleta(paletaFuncionarios);
