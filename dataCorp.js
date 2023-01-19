@@ -27,28 +27,29 @@ var construindo=false;
 var construcaoCursor=document.createElement("img");
 construcaoCursor.classList.add("construcaoCursor");
 var construcaoItens=[];
+var objetoParaConstruir=null;
 
 //Paletas
 paletaFuncionarios=[
-    ["Funcionário","funcionario.svg","Ágeis e independentes, os FUNCIONÁRIOS são capazes de manipular DADOS e EQUIPAMENTOS, realizando sequências de instruções programáveis.</p><p>Os FUNCIONÁRIOS ainda possuem a vantagem de ler toda a sala em que são inseridos como uma grande memória, podendo cada espaço ser referenciado de acordo.</p><p>Ainda, o FUNCIONÁRIO pode trabalhar em conjunto com outros FUNCIONÁRIOS, cada um com suas próprias instruções.","descFuncionario.svg",criarFuncionario],
-    ["Gerente","funcionario_gerente.svg","Os GERENTES podem delegar FUNCIONÁRIOS e COORDENADORES para trabalhar e também manipular DADOS das salas de forma direta, sem cálculos, logo ao iniciar a execução.</p><p>Todo GERENTE, no entanto, aguarda por uma resposta a ser entregue para ele como um DADO, a qual é devidamente avaliada.</p><p>Também, a sala em que o GERENTE se encontra pode ser lida como uma memória.","descGerente.svg",criarGerente],
-    ["Coordenador","funcionario_coordenador.svg","COORDENADORES atuam como FUNCIONÁRIOS mas que não executam as instruções, e sim delegam-nas a OPERÁRIOS, que as manipulam de forma especial e paralela.</p><p>O COORDENADOR ainda é encarregado de, ao final da execução, empacotar todos os DADOS da sala e devolvê-los na porta. Por isto, é recomendado que haja apenas um COORDENADOR nas salas","descFuncionario.svg",criarCoordenador],
-    ["Operário","funcionario_operario.svg","Atuando de forma paralela a outros OPERÁRIOS, estes recebem comandos de um COORDENADOR, que envia um conjunto de instruções para estes executarem.</p><p>Os OPERÁRIOS requerem ainda que suas tarefas sejam devidamente finalizadas para permitir que o COORDENADOR da sala possa empacotar os DADOS manipulados.","descFuncionario.svg",criarOperario]
+    ["Funcionário","funcionario.svg","Ágeis e independentes, os FUNCIONÁRIOS são capazes de manipular DADOS e EQUIPAMENTOS, realizando sequências de instruções programáveis.</p><p>Os FUNCIONÁRIOS ainda possuem a vantagem de ler toda a sala em que são inseridos como uma grande memória, podendo cada espaço ser referenciado de acordo.</p><p>Ainda, o FUNCIONÁRIO pode trabalhar em conjunto com outros FUNCIONÁRIOS, cada um com suas próprias instruções.","descFuncionario.svg","funcionario"],
+    ["Gerente","funcionario_gerente.svg","Os GERENTES podem delegar FUNCIONÁRIOS e COORDENADORES para trabalhar e também manipular DADOS das salas de forma direta, sem cálculos, logo ao iniciar a execução.</p><p>Todo GERENTE, no entanto, aguarda por uma resposta a ser entregue para ele como um DADO, a qual é devidamente avaliada.</p><p>Também, a sala em que o GERENTE se encontra pode ser lida como uma memória.","descGerente.svg","gerente"],
+    ["Coordenador","funcionario_coordenador.svg","COORDENADORES atuam como FUNCIONÁRIOS mas que não executam as instruções, e sim delegam-nas a OPERÁRIOS, que as manipulam de forma especial e paralela.</p><p>O COORDENADOR ainda é encarregado de, ao final da execução, empacotar todos os DADOS da sala e devolvê-los na porta. Por isto, é recomendado que haja apenas um COORDENADOR nas salas","descFuncionario.svg","coordenador"],
+    ["Operário","funcionario_operario.svg","Atuando de forma paralela a outros OPERÁRIOS, estes recebem comandos de um COORDENADOR, que envia um conjunto de instruções para estes executarem.</p><p>Os OPERÁRIOS requerem ainda que suas tarefas sejam devidamente finalizadas para permitir que o COORDENADOR da sala possa empacotar os DADOS manipulados.","descFuncionario.svg","operario"]
 ];
 paletaEquips=[
-    ["Dado","dado.svg","Cada DADO possui um valor que pode ser verificado e manipulado para permitir que os FUNCIONÁRIOS possam executar suas instruções.</p><p>No caso de valores do tipo numérico, estes podem ser matematicamente operados e também ser utilizados como referências à posições na sala, para uso como memória.</p><p>Para os valores do tipo caracter, estes seguem o padrão ASCII para suas referências.","descDado.svg",criarDado],
-    ["Impressora","impressora.svg","DESC IMPRESSORA","descImpressora.svg",criarImpressora],
-    ["Triturador","triturador.svg","DESC TRITURADOR","descTriturador.svg",criarTriturador],
-    ["Esteira","esteira_N.svg","DESC ESTEIRA","descEsteira.svg",criarEsteira]
+    ["Dado","dado.svg","Cada DADO possui um valor que pode ser verificado e manipulado para permitir que os FUNCIONÁRIOS possam executar suas instruções.</p><p>No caso de valores do tipo numérico, estes podem ser matematicamente operados e também ser utilizados como referências à posições na sala, para uso como memória.</p><p>Para os valores do tipo caracter, estes seguem o padrão ASCII para suas referências.","descDado.svg","dado"],
+    ["Impressora","impressora.svg","DESC IMPRESSORA","descImpressora.svg","impressora"],
+    ["Triturador","triturador.svg","DESC TRITURADOR","descTriturador.svg","triturador"],
+    ["Esteira","esteira_N.svg","DESC ESTEIRA","descEsteira.svg","esteira"]
 ];
 paletaConstrucao=[
-    ["Sala","parede.svg","Descrição salas","descSalas.svg",null,true],
-    ["Porta","porta.svg","Descrição portas","descPortas.svg",null]
+    ["Sala","parede.svg","Descrição salas","descSalas.svg","sala",true],
+    ["Porta","porta.svg","Descrição portas","descPortas.svg","porta"]
 ];
 paletaDecoracao=[
-    ["Planta","planta.svg","Descrição planta","descPlantas.svg",null],
-    ["Mesa","mesa.svg","Descrição mesa","descMesas.svg",null],
-    ["Bebedouro","bebedouro.svg","Descrição bebedouro","descBebedouros.svg",null]
+    ["Planta","planta.svg","Descrição planta","descPlantas.svg","planta"],
+    ["Mesa","mesa.svg","Descrição mesa","descMesas.svg","mesa"],
+    ["Bebedouro","bebedouro.svg","Descrição bebedouro","descBebedouros.svg","bebedouro"]
 ];
 paletaSelecionada=paletaFuncionarios;
 function exibirPaleta(argPaleta) {
@@ -86,7 +87,8 @@ function abrirConstrutor(argItem) {
     detalhamento.appendChild(descricaoImagem);
     detalhamento.appendChild(descricaoConstrutor);
     construindo=true;
-    if (argItem[5]==true) {
+    objetoParaConstruir=argItem[4];
+    if (argItem[5]==true) { // Define se a construção é "em área" (por exemplo, construindo salas) ou individual
     } else {
         construcaoCursor.src="imagens/"+argItem[1];
     }
@@ -938,6 +940,7 @@ function detalharObjeto(argObjeto) {
     }
 }
 function ativarDetalhamento() {
+    desativarDetalhamento();
     if (objetoDetalhado!=null) {
         objetoDetalhado.elemento.classList.remove("selecionado");
     }
@@ -1182,13 +1185,31 @@ cena.addEventListener("click",(e)=>{
     if (e.target==cena && !construindo) {
         desativarDetalhamento();
     } else if (construindo) {
-        //OEEE;
+        let posX=(e.clientX-(e.clientX%32))/32;
+        let posY=(e.clientY-(e.clientY%32))/32;
+        console.log("Constrói: "+objetoParaConstruir+" ("+posX+","+posY+")");
+        switch (objetoParaConstruir) {
+            case "funcionario": criarFuncionario(posX,posY); break;
+            case "dado": criarDado(posX,posY); break;
+            case "impressora": criarImpressora(posX,posY); break;
+            case "triturador": criarTriturador(posX,posY); break;
+            case "esteira": criarEsteira(posX,posY); break;
+            case "parede": criarParede(posX,posY); break;
+            case "porta": criarPorta(posX,posY); break;
+            case "planta": criarPlanta(posX,posY); break;
+            case "mesa": criarMesa(posX,posY); break;
+            case "bebedouro": criarBebedouro(posX,posY); break;
+        }
     }
 });
 cena.addEventListener("mousemove",(e)=>{
     if (construindo) {
-        construcaoCursor.style.left=e.clientX-(e.clientX%32);
-        construcaoCursor.style.top=e.clientY-(e.clientY%32);
+        let posX=e.clientX+cena.scrollLeft;
+        let posY=e.clientY+cena.scrollTop;
+        posX-=posX%32;
+        posY-=posY%32;
+        construcaoCursor.style.left=posX;
+        construcaoCursor.style.top=posY;
     }
 });
 cena.addEventListener("mouseover",(e)=>{
