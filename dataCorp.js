@@ -2,6 +2,7 @@
 const cena=document.getElementById("cena");
 const detalhamento=document.getElementById("detalhamento");
 const setaDetalhamento=document.getElementById("setaDetalhamento");
+const inputDetalhamento=document.getElementById("inputDetalhamento");
 
 const botaoExecutar=document.getElementById("botaoExecutar");
 const inputFrequenciaExecucao=document.getElementById("inputFrequenciaExecucao");
@@ -9,6 +10,9 @@ const spanVelocidade=document.getElementById("spanVelocidade");
 const spanUpdates=document.getElementById("spanUpdates");
 const spanTempo=document.getElementById("spanTempo");
 const divPaleta=document.getElementById("divPaleta");
+
+const barraConstruir=document.getElementById("barraConstruir");
+const barraProgramar=document.getElementById("barraProgramar");
 
 //Variáveis globais
 var objetos=[];
@@ -46,7 +50,10 @@ paletaDecoracao=[
     ["Mesa","mesa.svg","Descrição mesa","descMesas.svg",null],
     ["Bebedouro","bebedouro.svg","Descrição bebedouro","descBebedouros.svg",null]
 ];
+paletaSelecionada=paletaFuncionarios;
 function exibirPaleta(argPaleta) {
+    barraConstruir.style.display="flex";
+    barraProgramar.style.display="none";
     divPaleta.innerHTML="";
     argPaleta.forEach(botao => {
         let novoBotao=document.createElement("button");
@@ -59,6 +66,7 @@ function exibirPaleta(argPaleta) {
         novoBotao.appendChild(imagemBotao);
         divPaleta.appendChild(novoBotao);
     });
+    paletaSelecionada=argPaleta;
 }
 function abrirConstrutor(argItem) {
     detalhamento.innerHTML="";
@@ -83,6 +91,21 @@ function abrirConstrutor(argItem) {
         construcaoCursor.src="imagens/"+argItem[1];
     }
 }
+function exibirProgramacoes() {
+    barraConstruir.style.display="none";
+    barraProgramar.style.display="flex";
+    desativarEspacoCards();
+}
+paletaProgramacoes=[
+    ["mover","mover"],
+    ["pegar","pegar"],
+    ["soltar","pegar"],
+    ["pular","ordem"],
+]
+paletaProgramacoes.forEach(cardProgramacao => {
+    let novoCard=criarCardProgramacao(cardProgramacao,null,true);
+    barraProgramar.appendChild(novoCard[0]);
+});
 
 //Classes
 class Objeto {
@@ -120,13 +143,15 @@ class Objeto {
             cena.removeChild(this.elementoClicavel);
         }
         cena.removeChild(this.elemento);
-        let novoArrayObjetos=[];
-        objetos.forEach(objeto=>{
-            if (objeto!=this) {
-                novoArrayObjetos.push(objeto);
-            }
-        });
-        objetos=novoArrayObjetos;
+        if (this.geradoEmExecucao) {
+            let novoArrayObjetos=[];
+            objetos.forEach(objeto=>{
+                if (objeto!=this) {
+                    novoArrayObjetos.push(objeto);
+                }
+            });
+            objetos=novoArrayObjetos;
+        }
         if (this.objetoAbaixo!=null) {
             this.objetoAbaixo.objetoAcima=null;
         }
@@ -147,6 +172,7 @@ class Objeto {
             this.posY=this.posYInicial;
             this.objetoAcima=null;
             this.objetoAbaixo=null;
+            this.elevado=false;
             this.softDraw();
         }
     }
@@ -255,7 +281,6 @@ class Dado extends Objeto {
         this.imagem="dado.svg";
         this.elementoValor=document.createElement("div");
         this.elementoValor.classList.add("valorDado");
-        cena.appendChild(this.elementoValor);
         this.definirValor(argValor);
     }
     definirValor(argValor=null) {
@@ -267,6 +292,10 @@ class Dado extends Objeto {
         super.softDraw();
         this.elementoValor.style.left=this.elemento.style.left;
         this.elementoValor.style.top=this.elemento.style.top;
+    }
+    draw() {
+        cena.appendChild(this.elementoValor);
+        super.draw();
     }
     destruir() {
         cena.removeChild(this.elementoValor);
@@ -346,11 +375,11 @@ class Funcionario extends Objeto {
         if (this.executando) {
             if (this.acaoCounter<this.acoes.length) {
                 let acaoAgora=this.acoes[this.acaoCounter];
-                switch (acaoAgora[0]) {
+                switch (acaoAgora.tipo) {
                     case "mover": {
                         let alvoX=0;
                         let alvoY=0;
-                        switch (acaoAgora[1]) {
+                        switch (acaoAgora.argumento) {
                             case "_N": alvoY=-1; break;
                             case "_S": alvoY=1; break;
                             case "_L": alvoX=1; break;
@@ -370,7 +399,7 @@ class Funcionario extends Objeto {
                         if (this.objetoAcima==null) {
                             let alvoX=0;
                             let alvoY=0;
-                            switch (acaoAgora[1]) {
+                            switch (acaoAgora.argumento) {
                                 case "_N": alvoY=-1; break;
                                 case "_S": alvoY=1; break;
                                 case "_L": alvoX=1; break;
@@ -408,7 +437,7 @@ class Funcionario extends Objeto {
                         if (this.objetoAcima!=null) {
                             let alvoX=0;
                             let alvoY=0;
-                            switch (acaoAgora[1]) {
+                            switch (acaoAgora.argumento) {
                                 case "_N": alvoY=-1; break;
                                 case "_S": alvoY=1; break;
                                 case "_L": alvoX=1; break;
@@ -430,7 +459,7 @@ class Funcionario extends Objeto {
                         }
                     } break;
                     case "pular": {
-                        this.acaoCounter=acaoAgora[1]-1;
+                        this.acaoCounter=acaoAgora.argumento-1;
                     } break;
                 }
                 this.acaoCounter++;
@@ -463,7 +492,95 @@ class Funcionario extends Objeto {
             this.sumirBalao();
             this.acaoCounter=0;
             this.suspenderExecucao=0;
+            this.executando=true;
         }
+    }
+    adicionarAcao(argAcao) {
+        let novaAcao=new AcaoProgramada(argAcao[0],this.acoes.length,argAcao[1]);
+        this.acoes.push(novaAcao);
+        return novaAcao;
+    }
+    inserirAcao(argAcao,argCounter) {
+        let retornoAcao=null;
+        if (argCounter==this.acoes.length) {
+            retornoAcao=this.adicionarAcao(argAcao);
+        } else {
+            let updateAcoes=[];
+            let contador=0;
+            for (let i=0; i<this.acoes.length; i++) {
+                if (argCounter==i) {
+                    retornoAcao=new AcaoProgramada(argAcao[0],contador,argAcao[1]);
+                    updateAcoes.push(retornoAcao);
+                    contador++;
+                }
+                let acaoInserir=this.acoes[i];
+                if (contador!=i) {
+                    acaoInserir.atualizarCounter(contador);
+                }
+                updateAcoes.push(acaoInserir);
+                contador++;
+            }
+            this.acoes=updateAcoes;
+        }
+        this.gerarCards();
+        retornoAcao.exibirInput();
+        return retornoAcao;
+    }
+    moverAcao(argCounterOrigem,argCounterDestino) {
+        let acaoMover=this.acoes[argCounterOrigem];
+        if (argCounterOrigem<argCounterDestino) {
+            for (let i=argCounterOrigem; i<argCounterDestino-1; i++) {
+                this.acoes[i]=this.acoes[i+1];
+                this.acoes[i].atualizarCounter(i);
+            }
+            this.acoes[argCounterDestino-1]=acaoMover;
+            this.acoes[argCounterDestino-1].atualizarCounter(argCounterDestino-1);
+        } else if (argCounterOrigem>argCounterDestino) {
+            //console.log("MOVE PRA CIMA");
+            for (let i=argCounterOrigem; i>argCounterDestino; i--) {
+                this.acoes[i]=this.acoes[i-1];
+                this.acoes[i].atualizarCounter(i);
+            }
+            this.acoes[argCounterDestino]=acaoMover;
+            this.acoes[argCounterDestino].atualizarCounter(argCounterDestino);
+        }
+        this.gerarCards();
+    }
+    swapAcao(argCounterOrigem,argCounterDestino) {
+        this.acoes[argCounterDestino].atualizarCounter(argCounterOrigem);
+        this.acoes[argCounterOrigem].atualizarCounter(argCounterDestino);
+        let acaoAux=this.acoes[argCounterDestino];
+        this.acoes[argCounterDestino]=this.acoes[argCounterOrigem];
+        this.acoes[argCounterOrigem]=acaoAux;
+        this.gerarCards();
+    }
+    deletarAcao(argCounter) {
+        console.log("Deleta o "+argCounter);
+        let updateAcoes=[];
+        let contador=0;
+        for (let i=0; i<this.acoes.length; i++) {
+            if (argCounter!=i) {
+                let acaoInserir=this.acoes[i];
+                if (contador!=i) {
+                    acaoInserir.atualizarCounter(contador);
+                }
+                updateAcoes.push(acaoInserir);
+                contador++;
+            }
+        }
+        this.acoes=updateAcoes;
+        this.gerarCards();
+    }
+    gerarCards() {
+        detalhamento.innerHTML="";
+        cardsEspacamentoProgramacao=[];
+        detalhamento.appendChild(criarEspacoCard());
+        let ultimoEspacoCard=null;
+        this.acoes.forEach((acao,counter)=>{
+            detalhamento.appendChild(acao.card);
+            ultimoEspacoCard=criarEspacoCard(counter+1);
+            detalhamento.appendChild(ultimoEspacoCard);
+        });
     }
     exibirBalao(argTexto) {
         this.balaoFala.style.opacity="1";
@@ -510,6 +627,100 @@ class Esteira extends Objeto {
     draw() {
         this.imagem="esteira"+this.direcao+".svg";
         super.draw();
+    }
+}
+class AcaoProgramada {
+    constructor(argTipo,argCounter,argArgumento) {
+        this.tipo=argTipo;
+        this.counter=argCounter;
+        this.argumento=argArgumento;
+        switch (this.tipo) {
+            case "mover":
+            case "pegar":
+            case "soltar": {
+                if (this.argumento=="") {
+                    this.argumento="_C";
+                }
+            } break;
+            case "pular": {
+                if (this.argumento=="") {
+                    this.argumento=this.counter;
+                }
+            } break;
+        }
+        let novoCard=criarCardProgramacao([this.tipo,this.argumento],this.counter,null,this);
+        this.card=novoCard[0];
+        this.cardCounter=novoCard[1];
+        this.cardInput=novoCard[2];
+    }
+    atualizarCounter(argNovoCounter) {
+        this.counter=argNovoCounter;
+        this.cardCounter.innerHTML=this.counter;
+        console.log("Atualizei para "+argNovoCounter);
+    }
+    exibirInput() {
+        //console.log("Exibir input");
+        desativarInputDetalhamento();
+        inputDetalhamento.style.display="block";
+        inputDetalhamento.style.backgroundColor=window.getComputedStyle(this.card).backgroundColor;
+        let inputDetalhamentoControle=null;
+        let inputComFoco=null;
+        switch (this.tipo) {
+            case "mover":
+            case "pegar":
+            case "soltar": {
+                let novoInput=criarInputDirecao(this.argumento);
+                inputDetalhamentoControle=novoInput[0];
+                for(let i=1; i<10; i++) {
+                    let novoComandoNoInput="";
+                    switch (i) {
+                        case 1: novoComandoNoInput="_NO"; break;
+                        case 2: novoComandoNoInput="_N"; break;
+                        case 3: novoComandoNoInput="_NE"; break;
+                        case 4: novoComandoNoInput="_O"; break;
+                        case 5: novoComandoNoInput="_C"; break;
+                        case 6: novoComandoNoInput="_L"; break;
+                        case 7: novoComandoNoInput="_SO"; break;
+                        case 8: novoComandoNoInput="_S"; break;
+                        case 9: novoComandoNoInput="_SE"; break;
+                    }
+                    novoInput[i].onclick=(e,argAcao=this)=>{
+                        argAcao.atualizarInput(novoComandoNoInput);
+                        desativarInputDetalhamento();
+                    }
+                }
+            } break;
+            case "pular": {
+                let novoInput=criarInputTexto(this.argumento,"number");
+                inputDetalhamentoControle=novoInput[0];
+                novoInput[1].onchange=(e,argAcao=this)=>{
+                    argAcao.atualizarInput(novoInput[1].value);
+                }
+                inputComFoco=novoInput[1];
+            } break;
+        }
+        inputDetalhamento.appendChild(inputDetalhamentoControle);
+        inputDetalhamento.style.top=this.cardInput.offsetTop-detalhamento.scrollTop-(inputDetalhamento.offsetHeight/2-(this.cardInput.offsetHeight/2));
+        inputDetalhamento.style.left=detalhamento.offsetLeft+this.cardInput.offsetLeft-(inputDetalhamento.offsetWidth/2-(this.cardInput.offsetWidth/2));
+        ajustarInputDetalhamento();
+        if (inputComFoco!=null) {
+            inputComFoco.focus();
+        }
+    }
+    atualizarInput(argNovoArgumento) {
+        console.log("Atualiza para "+argNovoArgumento);
+        switch (this.tipo) {
+            case "mover":
+            case "pegar":
+            case "soltar": {
+                this.argumento=argNovoArgumento;
+                this.cardInput.src="imagens/seta"+this.argumento+".svg";
+            } break;
+            case "pular": {
+                this.argumento=parseInt(argNovoArgumento);
+                this.cardInput.innerHTML=argNovoArgumento;
+            }
+        }
     }
 }
 class Parede extends Objeto {
@@ -574,8 +785,11 @@ function criarObjeto(argObjeto,argPosX,argPosY) {
     objetos.push(novoObjeto);
     return novoObjeto;
 }
-function criarFuncionario(argPosX,argPosY) {
+function criarFuncionario(argPosX,argPosY,argAcoes=[]) {
     let novoFuncionario=criarObjeto(Funcionario,argPosX,argPosY);
+    argAcoes.forEach((acao)=>{
+        novoFuncionario.adicionarAcao(acao);
+    });
     novoFuncionario.draw();
     return novoFuncionario;
 }
@@ -706,21 +920,21 @@ function obterObjetosPegaveis(argPosX,argPosY) {
 }
 
 //GUI
+var cardsEspacamentoProgramacao=[];
 function detalharObjeto(argObjeto) {
     detalhamento.innerHTML="";
     ativarDetalhamento();
     objetoDetalhado=argObjeto;
     objetoDetalhado.elemento.classList.add("selecionado");
-    console.log(objetoDetalhado);
+    //console.log(objetoDetalhado);
     setaDetalhamento.style.display="block";
     if (objetoDetalhado.tipoClicavel=="programa") {
-        objetoDetalhado.acoes.forEach((acao,counter)=>{
-            detalhamento.appendChild(criarCardProgramacao(acao,counter));
-        });
+        objetoDetalhado.gerarCards();
         atualizarProgramCounter(objetoDetalhado.acaoCounter);
         detalhamento.onscroll=()=>{
             atualizarSetaProgramCounter(objetoDetalhado.acaoCounter);
         }
+        exibirProgramacoes();
     }
 }
 function ativarDetalhamento() {
@@ -728,14 +942,18 @@ function ativarDetalhamento() {
         objetoDetalhado.elemento.classList.remove("selecionado");
     }
     detalhamento.onscroll=null;
-    detalhamento.style.display="block";
+    detalhamento.style.display="flex";
     cena.style.width="calc(100% - "+detalhamento.offsetWidth+"px)";
     setaDetalhamento.style.display="none";
 }
 function desativarDetalhamento() {
     if (objetoDetalhado!=null) {
         objetoDetalhado.elemento.classList.remove("selecionado");
+        if (objetoDetalhado.tipoClicavel=="programa") {
+            exibirPaleta(paletaSelecionada);
+        }
     }
+    desativarInputDetalhamento();
     detalhamento.style.display="none";
     setaDetalhamento.style.display="none";
     cena.onclick=null;
@@ -747,77 +965,219 @@ function desativarDetalhamento() {
         }
     }
 }
-function criarCardProgramacao(argAcao,argCounter) {
+
+function atualizarProgramCounter(argContador) {
+    if (objetoDetalhado.acoes[argContador]!=null) {
+        objetoDetalhado.acoes[argContador].card.scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
+        atualizarSetaProgramCounter(argContador);
+    }
+}
+function atualizarSetaProgramCounter(argContador) {
+    //let numeroCounter=1+(argContador*2);
+    setaDetalhamento.style.top=objetoDetalhado.acoes[argContador].card.offsetTop-detalhamento.scrollTop;
+    setaDetalhamento.style.left=detalhamento.offsetLeft-20;
+}
+
+var programacaoAcaoMovendo=null;
+function criarEspacoCard(argCounter=0) {
+    let novoEspaco=document.createElement("div");
+    novoEspaco.classList.add("espacoCard");
+    novoEspaco.setAttribute("counter",argCounter);
+    novoEspaco.ondragenter=(e)=>{
+        novoEspaco.style.opacity="1";
+        novoEspaco.style.height="70px";
+    }
+    novoEspaco.ondragleave=(e)=>{
+        novoEspaco.style.opacity=null;
+        novoEspaco.style.height=null;
+    }
+    novoEspaco.ondragover=(e)=>{
+        e.preventDefault();
+    }
+    novoEspaco.ondrop=(e)=>{
+        console.log("Soltei!");
+        if (programacaoAcaoMovendo.constructor===Array) {
+            objetoDetalhado.inserirAcao(programacaoAcaoMovendo,argCounter);
+        } else {
+            objetoDetalhado.moverAcao(programacaoAcaoMovendo.counter,argCounter);
+        }
+        novoEspaco.style.opacity=null;
+        novoEspaco.style.height=null;
+    }
+    cardsEspacamentoProgramacao.push(novoEspaco);
+    return novoEspaco;
+}
+function ativarEspacoCards() {
+    cardsEspacamentoProgramacao.forEach(card => {
+        card.style.pointerEvents=null;
+        card.style.zIndex=1;
+    });
+    //console.log("Espaços ativados");
+}
+function desativarEspacoCards() {
+    cardsEspacamentoProgramacao.forEach(card => {
+        card.style.pointerEvents="none";
+        card.style.zIndex=-1;
+    });
+    //console.log("Espaços desativados");
+}
+function criarCardProgramacao(argAcao,argCounter,argFerramenta=null,argAcaoObjeto=null) {
+    let retorno=[];
     let novoCard=document.createElement("div");
+    retorno[0]=novoCard;
     novoCard.classList.add("card");
-    let pCounter=document.createElement("p");
-    pCounter.classList.add("counter");
-    pCounter.innerHTML=argCounter;
-    novoCard.appendChild(pCounter);
+    if (argFerramenta===null) {
+        let pCounter=document.createElement("p");
+        pCounter.classList.add("counter");
+        pCounter.innerHTML=argCounter;
+        retorno[1]=pCounter;
+        novoCard.appendChild(pCounter);
+    }
+    novoCard.draggable=true;
+    novoCard.ondragstart=(e)=>{
+        novoCard.style.opacity="0.5";
+        ativarEspacoCards();
+        if (argFerramenta===null) {
+            programacaoAcaoMovendo=argAcaoObjeto;
+            cena.ondrop=(e)=>{
+                objetoDetalhado.deletarAcao(argAcaoObjeto.counter);
+                cena.ondrop=null;
+            }
+        } else {
+            programacaoAcaoMovendo=[argAcao[0],""];
+        }
+    }
+    novoCard.ondragend=(e)=>{
+        novoCard.style.opacity="1";
+        desativarEspacoCards();
+        cena.ondrop=null;
+        //console.log(e);
+        programacaoAcaoMovendo=null;
+    }
     switch (argAcao[0]) {
         case "mover": {
             let pComando=document.createElement("p");
             pComando.innerHTML="Mover";
-            let divDirecao=criarInputDirecao(argAcao[1]);
             novoCard.appendChild(pComando);
-            novoCard.appendChild(divDirecao);
             novoCard.classList.add("mover");
+            if (argFerramenta===null) {
+                //let divDirecao=criarInputDirecao(argAcao[1]);
+                let imgDirecao=document.createElement("img");
+                imgDirecao.classList.add("input");
+                imgDirecao.src="imagens/seta"+argAcao[1]+".svg";
+                imgDirecao.onclick=(e)=>{
+                    argAcaoObjeto.exibirInput();
+                }
+                novoCard.appendChild(imgDirecao);
+                retorno[2]=imgDirecao;
+            }
         } break;
         case "pegar": {
             let pComando=document.createElement("p");
             pComando.innerHTML="Pegar de";
-            let divDirecao=criarInputDirecao(argAcao[1]);
             novoCard.appendChild(pComando);
-            novoCard.appendChild(divDirecao);
             novoCard.classList.add("pegar");
+            if (argFerramenta===null) {
+                let imgDirecao=document.createElement("img");
+                imgDirecao.classList.add("input");
+                imgDirecao.src="imagens/seta"+argAcao[1]+".svg";
+                imgDirecao.onclick=(e)=>{
+                    argAcaoObjeto.exibirInput();
+                }
+                novoCard.appendChild(imgDirecao);
+                retorno[2]=imgDirecao;
+            }
         } break;
         case "soltar": {
             let pComando=document.createElement("p");
             pComando.innerHTML="Soltar em";
-            let divDirecao=criarInputDirecao(argAcao[1]);
             novoCard.appendChild(pComando);
-            novoCard.appendChild(divDirecao);
             novoCard.classList.add("pegar");
+            if (argFerramenta===null) {
+                let imgDirecao=document.createElement("img");
+                imgDirecao.classList.add("input");
+                imgDirecao.src="imagens/seta"+argAcao[1]+".svg";
+                imgDirecao.onclick=(e)=>{
+                    argAcaoObjeto.exibirInput();
+                }
+                novoCard.appendChild(imgDirecao);
+                retorno[2]=imgDirecao;
+            }
         } break;
         case "pular": {
             let pComando=document.createElement("p");
-            pComando.innerHTML="Pular para "+argAcao[1];
+            pComando.innerHTML="Pular para";
             novoCard.appendChild(pComando);
             novoCard.classList.add("ordem");
+            if (argFerramenta===null) {
+                let pOrdem=document.createElement("p");
+                pOrdem.classList.add("input");
+                pOrdem.innerHTML=argAcao[1];
+                pOrdem.onclick=(e)=>{
+                    argAcaoObjeto.exibirInput();
+                }
+                novoCard.appendChild(pOrdem);
+                retorno[2]=pOrdem;
+            }
         } break;
     }
-    return novoCard;
-}
-function criarInputDirecao(argDirecaoSelecionada=null) {
-    let novoInputDirecao=document.createElement("div");
-    novoInputDirecao.classList.add("inputDirecao");
-    for (let i=0; i<9; i++) {
-        let novaDirecao=document.createElement("div");
-        switch (i) {
-            case 0: if (argDirecaoSelecionada=="_NO") {novaDirecao.classList.add("selecionado");} break;
-            case 1: if (argDirecaoSelecionada=="_N") {novaDirecao.classList.add("selecionado");} break;
-            case 2: if (argDirecaoSelecionada=="_NE") {novaDirecao.classList.add("selecionado");} break;
-            case 3: if (argDirecaoSelecionada=="_O") {novaDirecao.classList.add("selecionado");} break;
-            case 4: if (argDirecaoSelecionada=="") {novaDirecao.classList.add("selecionado");} break;
-            case 5: if (argDirecaoSelecionada=="_L") {novaDirecao.classList.add("selecionado");} break;
-            case 6: if (argDirecaoSelecionada=="_SO") {novaDirecao.classList.add("selecionado");} break;
-            case 7: if (argDirecaoSelecionada=="_S") {novaDirecao.classList.add("selecionado");} break;
-            case 8: if (argDirecaoSelecionada=="_SE") {novaDirecao.classList.add("selecionado");} break;
-        }
-        novoInputDirecao.appendChild(novaDirecao);
-    }
-    return novoInputDirecao;
-}
-function atualizarProgramCounter(argContador) {
-    detalhamento.children[argContador].scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
-    atualizarSetaProgramCounter(argContador);
-}
-function atualizarSetaProgramCounter(argContador) {
-    setaDetalhamento.style.top=detalhamento.children[argContador].offsetTop+20-detalhamento.scrollTop;
-    setaDetalhamento.style.left=detalhamento.offsetLeft-20;
+    return retorno;
 }
 
-//Event listeners
+function desativarInputDetalhamento() {
+    inputDetalhamento.innerHTML="";
+    inputDetalhamento.style.display="none";
+}
+function ajustarInputDetalhamento() {
+    if (inputDetalhamento.offsetTop<0) {
+        let calculoAjuste=inputDetalhamento.offsetTop*-1;
+        console.log("AJUSTA AÍ PÔ - "+calculoAjuste);
+        inputDetalhamento.style.top=inputDetalhamento.offsetTop+calculoAjuste;
+    }
+}
+function criarInputDirecao(argDirecaoSelecionada=null) {
+    let retorno=[];
+    let novoInputDirecao=document.createElement("div");
+    novoInputDirecao.classList.add("inputDirecao");
+    retorno[0]=novoInputDirecao;
+    for (let i=0; i<9; i++) {
+        let novaDirecao=document.createElement("img");
+        let argDirecao="_C";
+        switch (i) {
+            case 0: argDirecao="_NO"; break;
+            case 1: argDirecao="_N"; break;
+            case 2: argDirecao="_NE"; break;
+            case 3: argDirecao="_O"; break;
+            case 4: argDirecao="_C"; break;
+            case 5: argDirecao="_L"; break;
+            case 6: argDirecao="_SO"; break;
+            case 7: argDirecao="_S"; break;
+            case 8: argDirecao="_SE"; break;
+        }
+        novaDirecao.src="imagens/seta"+argDirecao+".svg";
+        novaDirecao.classList.add("input");
+        if (argDirecao==argDirecaoSelecionada) {
+            novaDirecao.classList.add("selecionado");
+        }
+        retorno.push(novaDirecao);
+        novoInputDirecao.appendChild(novaDirecao);
+    }
+    return retorno;
+}
+function criarInputTexto(argTexto,argTipo="text") {
+    let retorno=[];
+    let novoInputTexto=document.createElement("div");
+    //novoInputTexto.classList.add("inputDirecao");
+    retorno[0]=novoInputTexto;
+    let novoInput=document.createElement("input");
+    novoInput.classList.add("input");
+    novoInput.type=argTipo;
+    novoInput.value=argTexto;
+    retorno[1]=novoInput;
+    novoInputTexto.appendChild(novoInput);
+    return retorno;
+}
+
 cena.addEventListener("click",(e)=>{
     if (e.target==cena && !construindo) {
         desativarDetalhamento();
@@ -849,6 +1209,14 @@ document.body.addEventListener("keyup",(e)=>{
         desativarDetalhamento();
     }
 });
+cena.ondragover=(e)=>{
+    e.preventDefault();
+}
+detalhamento.addEventListener("mouseup",(e)=>{
+    if (e.target!=inputDetalhamento) {
+        desativarInputDetalhamento();
+    }
+},true);
 
 //Game logic
 function ping() {
@@ -882,6 +1250,7 @@ function iniciarSimulacao() {
     emPausa=false;
     clearInterval(execucaoSimulacao);
     execucaoSimulacao=setInterval(update,duracaoUpdates);
+    update();
     botaoExecutar.src="imagens/controle_pausar.svg";
 }
 function pararSimulacao() {
@@ -985,8 +1354,7 @@ criarEsteira(13,4,"_S");
 criarEsteira(13,5,"_S");
 criarEsteira(13,6,"_O");
 criarEsteira(12,6,"_S");
-var tempFuncionario=criarFuncionario(8,1);
-tempFuncionario.acoes=[
+criarFuncionario(8,1,[
     ["mover","_L"],
     ["mover","_S"],
     ["mover","_SO"],
@@ -997,9 +1365,8 @@ tempFuncionario.acoes=[
     ["soltar","_L"],
     ["pegar","_SO"],
     ["pular",7]
-];
-var tempFuncionario=criarFuncionario(17,2);
-tempFuncionario.acoes=[
+]);
+var tempFuncionario=criarFuncionario(10,2,[
     ["mover","_S"],
     ["mover","_S"],
     ["mover","_S"],
@@ -1016,9 +1383,8 @@ tempFuncionario.acoes=[
     ["mover","_L"],
     ["soltar","_L"],
     ["pular",5]
-];
-var tempFuncionario=criarFuncionario(9,9);
-tempFuncionario.acoes=[
+]);
+criarFuncionario(9,9,[
     ["mover","_L"],
     ["mover","_L"],
     ["mover","_L"],
@@ -1034,8 +1400,7 @@ tempFuncionario.acoes=[
     ["mover","_O"],
     ["mover","_O"],
     ["pular",4]
-];
-criarTriturador(18,7);
-ativarRecalculador();
+]);
+criarTriturador(11,7);
 ping();
 exibirPaleta(paletaFuncionarios);

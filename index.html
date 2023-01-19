@@ -9,6 +9,7 @@
             <div id="cena"></div>
             <div id="detalhamento"></div>
             <img id="setaDetalhamento" src="imagens/seta.svg">
+            <div id="inputDetalhamento"></div>
             <div id="barraControle" class="flex">
                 <button onclick="alternarSimulacao()"><img id="botaoExecutar" src="imagens/controle_executar.svg"></button>
                 <button onclick="pararSimulacao()"><img src="imagens/controle_parar.svg"></button>
@@ -22,17 +23,23 @@
                     </div>
                 </div>
                 <hr>
-                <div class="flex coluna largo">
-                    <div class="flex largo">
-                        <button onclick="exibirPaleta(paletaFuncionarios)" title="Funcionários">A</button>
-                        <button onclick="exibirPaleta(paletaEquips)" title="Equipamentos">B</button>
+                <div class="flex largo" id="barraConstruir">
+                    <div class="flex coluna largo">
+                        <div class="flex largo">
+                            <button onclick="exibirPaleta(paletaFuncionarios)" title="Funcionários">A</button>
+                            <button onclick="exibirPaleta(paletaEquips)" title="Equipamentos">B</button>
+                        </div>
+                        <div class="flex largo">
+                            <button onclick="exibirPaleta(paletaConstrucao)" title="Construção">C</button>
+                            <button onclick="exibirPaleta(paletaDecoracao)" title="Decoração">D</button>
+                        </div>
                     </div>
-                    <div class="flex largo">
-                        <button onclick="exibirPaleta(paletaConstrucao)" title="Construção">C</button>
-                        <button onclick="exibirPaleta(paletaDecoracao)" title="Decoração">D</button>
+                    <div class="flex" id="divPaleta">
                     </div>
                 </div>
-                <div class="flex" id="divPaleta">
+                <div class="flex largo" id="barraProgramar" style="display: none">
+                    <div class="flex" id="divPaletaProgramar">
+                    </div>
                 </div>
             </div>
         </div>
