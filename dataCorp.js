@@ -139,13 +139,15 @@ class Objeto {
         this.tipoClicavel="";
         this.executando=false;
         this.movimentacao="ease";
+        this.necessarioRedraw=false;
+        this.destruido=false;
     }
-    destruir() {
+    destruir(argForce=false) {
         if (this.elementoClicavel.parentElement==cena) {
             cena.removeChild(this.elementoClicavel);
         }
         cena.removeChild(this.elemento);
-        if (this.geradoEmExecucao) {
+        if (this.geradoEmExecucao || argForce) {
             let novoArrayObjetos=[];
             objetos.forEach(objeto=>{
                 if (objeto!=this) {
@@ -153,6 +155,10 @@ class Objeto {
                 }
             });
             objetos=novoArrayObjetos;
+        } else {
+            console.log("Objeto não gerado em execução destruído");
+            this.necessarioRedraw=true;
+            this.destruido=true;
         }
         if (this.objetoAbaixo!=null) {
             this.objetoAbaixo.objetoAcima=null;
@@ -170,6 +176,7 @@ class Objeto {
         if (this.geradoEmExecucao) {
             this.destruir();
         } else {
+            this.destruido=false;
             this.posX=this.posXInicial;
             this.posY=this.posYInicial;
             this.objetoAcima=null;
@@ -179,20 +186,29 @@ class Objeto {
         }
     }
     softDraw() {
-        this.elemento.style.left=((this.posX*32)+this.offsetX)+"px";
-        if (this.elevado) {
-            this.elemento.style.top=(((this.posY*32)-8)+this.offsetY)+"px";
-        } else {
-            this.elemento.style.top=((this.posY*32)+this.offsetY)+"px";
+        if (!this.destruido) {
+            if (this.necessarioRedraw) {
+                this.draw();
+            } else {
+                this.elemento.style.left=((this.posX*32)+this.offsetX)+"px";
+                if (this.elevado) {
+                    this.elemento.style.top=(((this.posY*32)-8)+this.offsetY)+"px";
+                } else {
+                    this.elemento.style.top=((this.posY*32)+this.offsetY)+"px";
+                }
+                this.elementoClicavel.style.left=this.elemento.style.left;
+                this.elementoClicavel.style.top=this.elemento.style.top;
+            }
         }
-        this.elementoClicavel.style.left=this.elemento.style.left;
-        this.elementoClicavel.style.top=this.elemento.style.top;
     }
     draw() {
         cena.appendChild(this.elemento);
         this.elemento.data="imagens/"+this.imagem;
         this.elementoClicavel.style.width=this.elemento.width;
         this.elementoClicavel.style.height=this.elemento.height;
+        if (this.necessarioRedraw) {
+            this.necessarioRedraw=false;
+        }
         this.softDraw();
     }
     mover(argPosX,argPosY) {
@@ -887,7 +903,7 @@ function criarParede(argPosX,argPosY) {
 function criarPorta(argPosX,argPosY) {
     paredeDestruir=obterObjetos(argPosX,argPosY);
     paredeDestruir.forEach((parede)=>{
-        parede.destruir();
+        parede.destruir(true);
     })
     let novaPorta=criarObjeto(Porta,argPosX,argPosY);
     novaPorta.draw();
